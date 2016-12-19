@@ -1,0 +1,146 @@
+#wx_cart {
+    position: relative;
+    height: 100%;
+    width: 100%;
+}
+
+#wx_cart ul {}
+
+#wx_cart ul li {
+    position: relative;
+    height: 80px;
+    border-bottom: 1px solid #e0e0e0;
+    background-color: #fff;
+}
+
+#wx_cart ul li .wx_cart_img {
+    position: absolute;
+    height: 50px;
+    width: 50px;
+    bottom: 8px;
+    left: 10px;
+}
+
+#wx_cart ul li .wx_cart_body {
+    padding: 15px 30px 0 70px;
+}
+
+#wx_cart ul li .wx_cart_body .wx_cart_body_title {
+    font-size: 17px;
+    font-weight: normal;
+    color: #777;
+}
+
+#wx_cart ul li .wx_cart_body .option {}
+
+#wx_cart ul li .wx_cart_body .option .change_box {
+    font-size: 30px;
+    color: #888;
+}
+
+#wx_cart ul li .wx_cart_body .option .change_box .change_box_left {
+    float: left;
+    display: block;
+    height: 30px;
+    width: 30px;
+    background-color: #fff;
+    border: 1px solid #e0e0e0;
+    text-align: center;
+    line-height: 25px;
+}
+
+#wx_cart ul li .wx_cart_body .option .change_box input {
+    float: left;
+    display: block;
+    height: 30px;
+    width: 50px;
+    border-top: 1px solid #e0e0e0;
+    border-bottom: 1px solid #e0e0e0;
+    color: #aaa;
+    font-size: 18px;
+    text-align: center;
+}
+
+#wx_cart ul li .wx_cart_body .option .change_box .change_box_right {
+    float: left;
+    display: block;
+    height: 30px;
+    width: 30px;
+    background-color: #fff;
+    border: 1px solid #e0e0e0;
+    text-align: center;
+    line-height: 30px;
+}
+
+#wx_cart ul li .wx_cart_body .option .delete_box {
+    float: right;
+    margin-top: 10px;
+}
+
+#wx_cart ul li .wx_cart_body .option .delete_box .delete_box_top {
+    width: 20px;
+    height: 5px;
+    background: url(../images/delete_up.png) no-repeat;
+    -webkit-background-size: 20px 5px;
+    background-size: 20px 5px;
+    margin-left: -1px;
+}
+
+#wx_cart ul li .wx_cart_body .option .delete_box .delete_box_bottom {
+    width: 18px;
+    height: 18px;
+    background: url(../images/delete_down.png) no-repeat;
+    -webkit-background-size: 18px 18px;
+    background-size: 18px 18px;
+    margin-top: -3px;
+}
+
+#wx_cart ul li .wx_cart_right {
+    display: block;
+    position: absolute;
+    color: #2baf2b;
+    font-size: 16px;
+    top: 18px;
+    right: 20px;
+}
+
+
+/* 结算 */
+
+#wx_cart .wx_cart_amount {
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    height: 40px;
+    margin-bottom: 58px;
+    border-top: 1px solid #e0e0e0;
+    background: rgba(256, 256, 256, 1);
+}
+
+#wx_cart .wx_cart_amount .wx_cart_amount_go {
+    display: block;
+    float: right;
+    margin-left: 10px;
+    width: 100px;
+    height: 40px;
+    line-height: 40px;
+    border: none;
+    font-size: 14px;
+    font-weight: bold;
+    text-align: center;
+    color: #fff;
+    background-color: #2baf2b;
+}
+
+#wx_cart .wx_cart_amount .wx_cart_amount_num {
+    font-size: 14px;
+    line-height: 40px;
+    float: right;
+    color: #666;
+}
+
+#wx_cart .wx_cart_amount .wx_cart_amount_num span {
+    font-weight: bold;
+    color: #2baf2b;
+}
