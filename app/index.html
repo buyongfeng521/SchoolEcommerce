@@ -16,6 +16,9 @@
     <script src="./third_package/angular-loader/angular-loader.min.js"></script>
     <script src="app.js"></script>
     <script src="./e_category/controller.js"></script>
+    <script src="./components/autofocuscategory.js"></script>
+    <script src="./components/autofocusmenu.js"></script>
+    <script src="./components/goodsselected.js"></script>
     <title></title>
 </head>
 
@@ -25,41 +28,21 @@
             
         </div>
         <div class="weui-tabbar">
-            <a href="#/category/default" class="weui-tabbar__item weui-bar__item_on">
+            <a href="#/category/default" class="weui-tabbar__item weui-bar__item_on" autofocus-Menu>
                 <img src="./images/home.png" alt="" class="weui-tabbar__icon">
                 <p class="weui-tabbar__label">首页</p>
             </a>
-            <a href="javascript:;" data-tab="wx_cart" class="weui-tabbar__item">
+            <a href="javascript:;" data-tab="wx_cart" class="weui-tabbar__item" autofocus-Menu>
                 <img src="./images/cart.png" alt="" class="weui-tabbar__icon">
                 <p class="weui-tabbar__label">购物车</p>
             </a>
-            <a href="javascript:;" data-tab="wx_mine" class="weui-tabbar__item">
+            <a href="javascript:;" data-tab="wx_mine" class="weui-tabbar__item" autofocus-Menu>
                 <img src="./images/mine.png" alt="" class="weui-tabbar__icon">
                 <p class="weui-tabbar__label">我的</p>
             </a>
         </div>
     </div>
-    <script src="./js/zepto.min.js"></script>
-    <script src="./js/category.js"></script>
-    <script src="./js/cart.js"></script>
-    <script type="text/javascript">
-    $(function() {
-        $(".step_tab").css("display", "none");
-        $("#wx_category").css("display", "block");
-        /*$("#wx_cart").css("display", "block");*/
-
-        $('.weui-tabbar__item').on('click', function() {
-            $(this).addClass('weui-bar__item_on').siblings('.weui-bar__item_on').removeClass('weui-bar__item_on');
-            var tab_id = this.dataset.tab;
-            $("#" + tab_id).css("display", "block").siblings().css("display", "none");
-        });
-
-        /*category*/
-        category_event();
-        /*cart*/
-        cart_envent();
-    });
-    </script>
+    
 </body>
 
 </html>

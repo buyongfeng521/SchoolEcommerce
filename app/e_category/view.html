@@ -2,21 +2,32 @@
 <div class="step_tab" id="wx_category">
     <div class="category_left">
         <ul>
-            <li class="selected"><a href="javascript:">新品</a></li>
-            <li ng-repeat="item in categorylist" ng-click="goCategory(item.category_id)">
+            <li ng-repeat="item in categorylist" ng-click="goCategory(item.category_id)" ng-class="{selected:categoryid==item.category_id}" autofocus-category>
                 <a href="javascript:">{{item.category_name}}</a>
             </li>
         </ul>
     </div>
     <div class="category_right">
         <ul>
-            <li ng-repeat="item in goodslist">
-                <span class="cat_r_check" checked="checked"></span>
+            <li ng-repeat="item in goodslist" goods-selected>
+                <span class="cat_r_check"></span>
                 <div class="cat_r_body">
                     <h4>{{item.goods_name}}</h4>
                     <span>&yen; {{item.goods_price}}</span>
                 </div>
                 <img ng-src="{{item.goods_img}}" alt="" class="cat_r_right">
+            </li>
+            <li>
+                <div class="cat_r_body">
+                    <h4>可口可乐</h4>
+                    <span>&yen; 2.5</span>
+                </div>  
+                <!-- <img src="./images/products_1.png" alt="" class="cat_r_right"> -->
+                <div class="cat_r_change_box">
+                    <span class="change_box_left">-</span>
+                    <label class="change_box_middle">9</label>
+                    <span class="change_box_right">+</span>
+                </div>
             </li>
         </ul>
     </div>

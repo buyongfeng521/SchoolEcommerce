@@ -19,6 +19,7 @@
             //params
             var category_id = $routeParams.categoryid;
             //model
+            $scope.categoryid = category_id;
             $scope.categorylist = [];
             $scope.goodslist = [];
 
@@ -26,8 +27,6 @@
             $http.get(AppConfig.eschoolAPI + 'Goods/CategoryListGet', { 'headers': { 'Accept': 'application/json' } }).then(function(res) {
                 $scope.categorylist = res.data.Data;
                 if (category_id == 'default') {
-                    /*category_id = res.data.Data[0].category_id;
-                    console.log(category_id);*/
                     $route.updateParams({ categoryid: res.data.Data[0].category_id });
                 }
             }, function(res) {

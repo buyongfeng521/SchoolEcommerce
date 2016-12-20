@@ -17,6 +17,7 @@
     padding-bottom: 57px;
     border-right: 1px solid #e0e0e0;
     background-color: #f8f8f8;
+    height: 100%;
 }
 
 #wx_category .category_left ul li {
@@ -25,7 +26,6 @@
     border-bottom: 1px solid #e0e0e0;
     border-right: 1px solid #e0e0e0;
     text-align: center;
-    
 }
 
 #wx_category .category_left ul li.selected {
@@ -33,7 +33,8 @@
     background-color: #fff;
     position: relative;
 }
-#wx_category .category_left ul li.selected::before{
+
+#wx_category .category_left ul li.selected::before {
     content: "";
     display: block;
     height: 40px;
@@ -78,14 +79,13 @@
     -webkit-background-size: 50px 100px;
     background-size: 50px 100px;
     background-position: 0 0;
-    top:30px;
+    top: 30px;
     left: 10px;
 }
 
 #wx_category .category_right ul li .cat_r_check[checked] {
     background-position: -24px 0;
 }
-
 
 #wx_category .category_right ul li .cat_r_body h4 {
     font-weight: inherit;
@@ -106,4 +106,42 @@
     position: absolute;
     top: 2px;
     right: 1px;
+}
+
+#wx_category .category_right ul li .cat_r_change_box {
+    display: block;
+    height: 70px;
+    width: 90px;
+    position: absolute;
+    top: 2px;
+    right: 1px;
+    color: #888;
+    padding-top: 25px;
+}
+
+#wx_category .category_right ul li .cat_r_change_box .change_box_left,
+#wx_category .category_right ul li .cat_r_change_box .change_box_right {
+    display: block;
+    float: left;
+    border: 1px solid #e0e0e0;
+    height: 30px;
+    width: 30px;
+    border-radius: 20px;
+    color: #ff4a00;
+    font-size: 30px;
+    text-align: center;
+    line-height: 24px;
+}
+
+#wx_category .category_right ul li .cat_r_change_box .change_box_middle {
+    display: block;
+    float: left;
+    height: 30px;
+    width: 20px;
+    text-align: center;
+    line-height: 30px;
+}
+
+#wx_category .category_right ul li .cat_r_change_box .change_box_right {
+    line-height: 30px;
 }
