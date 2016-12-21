@@ -22,6 +22,9 @@
             $scope.categoryid = category_id;
             $scope.categorylist = [];
             $scope.goodslist = [];
+            //model_goods
+            $scope.itemnum = [];
+
 
             /*1.0 Category*/
             $http.get(AppConfig.eschoolAPI + 'Goods/CategoryListGet', { 'headers': { 'Accept': 'application/json' } }).then(function(res) {
@@ -37,6 +40,12 @@
                 $http.get(AppConfig.eschoolAPI + 'Goods/GoodsListGet?category_id=' + category_id, { 'headers': { 'Accept': 'application/json' } }).then(function(res) {
                     console.log(res.data);
                     $scope.goodslist = res.data.Data;
+                    //arr
+                    var arr = [];
+                    for (var i = 0; i < $scope.goodslist.length; i++) {
+                        arr[i] = 0;
+                    }
+                    $scope.itemnum = arr;
                 }, function(res) {
 
                 });
@@ -46,6 +55,17 @@
             $scope.goCategory = function(cat_id) {
                 console.log(cat_id);
                 $route.updateParams({ categoryid: cat_id });
+            };
+            $scope.buy = function($index) {
+                if ($scope.itemnum[$index] == 0) {
+                    $scope.itemnum[$index]++;
+                }
+            };
+            $scope.minus = function($index) {
+                $scope.itemnum[$index]--;
+            };
+            $scope.add = function($index) {
+                $scope.itemnum[$index]++;
             };
         }
     ]);

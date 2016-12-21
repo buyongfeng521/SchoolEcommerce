@@ -1,2 +1,8 @@
 
 /* common */
+.school_dom_show{
+	display: block !important;
+}
+.school_dom_hide{
+	display: none !important;
+}

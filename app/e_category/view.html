@@ -9,24 +9,30 @@
     </div>
     <div class="category_right">
         <ul>
-            <li ng-repeat="item in goodslist" goods-selected>
-                <span class="cat_r_check"></span>
+            <li ng-repeat="item in goodslist" ng-click="buy($index)">
+                <span class="cat_r_check" ng-show="itemnum[$index] <= 0"></span>
                 <div class="cat_r_body">
                     <h4>{{item.goods_name}}</h4>
                     <span>&yen; {{item.goods_price}}</span>
                 </div>
-                <img ng-src="{{item.goods_img}}" alt="" class="cat_r_right">
+                <img ng-src="{{item.goods_img}}" alt="" class="cat_r_right" ng-show="itemnum[$index] <= 0">
+                <div class="cat_r_change_box" ng-show="itemnum[$index] > 0">
+                    <span class="change_box_left" ng-click="minus($index)">-</span>
+                    <label class="change_box_middle">{{itemnum[$index]}}</label>
+                    <span class="change_box_right" ng-click="add($index)">+</span>
+                </div>
             </li>
-            <li>
+            <li goods-selected>
+                <span class="cat_r_check"></span>
                 <div class="cat_r_body">
                     <h4>可口可乐</h4>
                     <span>&yen; 2.5</span>
                 </div>  
-                <!-- <img src="./images/products_1.png" alt="" class="cat_r_right"> -->
-                <div class="cat_r_change_box">
-                    <span class="change_box_left">-</span>
-                    <label class="change_box_middle">9</label>
-                    <span class="change_box_right">+</span>
+                <img src="./images/products_1.png" alt="" class="cat_r_right">
+                <div class="cat_r_change_box school_dom_hide">
+                    <span class="change_box_left" ng-click="minus($index)">-</span>
+                    <label class="change_box_middle">1</label>
+                    <span class="change_box_right" ng-click="add($index)">+</span>
                 </div>
             </li>
         </ul>
