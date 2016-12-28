@@ -41,11 +41,13 @@
                     console.log(res.data);
                     $scope.goodslist = res.data.Data;
                     //arr
-                    var arr = [];
-                    for (var i = 0; i < $scope.goodslist.length; i++) {
-                        arr[i] = 0;
+                    if ($scope.goodslist) {
+                        var arr = [];
+                        for (var i = 0; i < $scope.goodslist.length; i++) {
+                            arr[i] = 0;
+                        }
+                        $scope.itemnum = arr;
                     }
-                    $scope.itemnum = arr;
                 }, function(res) {
 
                 });
@@ -56,17 +58,49 @@
                 console.log(cat_id);
                 $route.updateParams({ categoryid: cat_id });
             };
-            $scope.buy = function($index) {
+            $scope.buy = function($index, user_id, goods_id) {
                 if ($scope.itemnum[$index] == 0) {
                     $scope.itemnum[$index]++;
+                    console.log($scope.itemnum[$index]);
+                    updateCartNum(user_id, goods_id, $scope.itemnum[$index]);
                 }
             };
-            $scope.minus = function($index) {
-                $scope.itemnum[$index]--;
+            $scope.minus = function($index, user_id, goods_id) {
+                var current_num = $scope.itemnum[$index];
+                //删除
+                if (current_num == 1) {
+                    $scope.itemnum[$index]--;
+                    deleteCart(user_id, goods_id);
+                } else {
+                    $scope.itemnum[$index]--;
+                    updateCartNum(user_id, goods_id, $scope.itemnum[$index]);
+                }
+
             };
-            $scope.add = function($index) {
+            $scope.add = function($index, user_id, goods_id) {
                 $scope.itemnum[$index]++;
+                updateCartNum(user_id, goods_id, $scope.itemnum[$index]);
             };
+
+            var updateCartNum = function(user_id, goods_id, num) {
+                $http.post(AppConfig.eschoolAPI + 'Shopping/CartAdd', {
+                    'user_id': user_id,
+                    'goods_id': goods_id,
+                    'cart_num': num
+                }).then(function(res) {
+                    console.log(res);
+                });
+            };
+
+            var deleteCart = function(user_id, goods_id) {
+                $http.post(AppConfig.eschoolAPI + 'Shopping/CartDelete', {
+                    'user_id': user_id,
+                    'goods_id': goods_id
+                }).then(function(res) {
+                    console.log(res);
+                });
+            };
+
         }
     ]);
 
