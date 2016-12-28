@@ -18,6 +18,8 @@
         function($scope, $route, $http, $routeParams, AppConfig) {
             //params
             var category_id = $routeParams.categoryid;
+            var user_id = "123";
+            var carts_goods = [];
             //model
             $scope.categoryid = category_id;
             $scope.categorylist = [];
@@ -35,7 +37,15 @@
             }, function(res) {
 
             });
-            /*2.0 goods*/
+            /*2.0 carts*/
+            if(user_id){
+                $http.get(AppConfig.eschoolAPI + 'Shopping/CartListGet?user_id=' + user_id).then(function(res){
+                    carts_goods = res.data.Data;
+                },function(res){
+
+                });
+            }
+            /*3.0 goods*/
             if (category_id != 'default') {
                 $http.get(AppConfig.eschoolAPI + 'Goods/GoodsListGet?category_id=' + category_id, { 'headers': { 'Accept': 'application/json' } }).then(function(res) {
                     console.log(res.data);
