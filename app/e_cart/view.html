@@ -1,14 +1,14 @@
 <!-- Cart -->
 <div class="step_tab" id="wx_cart">
     <ul>
-        <li>
-            <img class="wx_cart_img" src="images/products_1.png" alt="">
+        <li ng-repeat="item in cartlist">
+            <img class="wx_cart_img" ng-src="{{item.goods.goods_img}}" alt="">
             <div class="wx_cart_body">
-                <a class="wx_cart_body_title" href="">可口可乐</a>
+                <a class="wx_cart_body_title" href="">{{item.goods.goods_name}}</a>
                 <div class="option">
                     <div class="change_box">
-                        <span class="change_box_left">-</span>
-                        <input type="tel" placeholder="0" value="1">
+                        <span class="change_box_left" ng-click="minus(item.cart_num,'123',item.goods_id)">-</span>
+                        <input type="tel" placeholder="0" value="{{item.cart_num}}">
                         <span class="change_box_right">+</span>
                     </div>
                     <div class="delete_box">
@@ -17,43 +17,7 @@
                     </div>
                 </div>
             </div>
-            <span class="wx_cart_right">&yen; 2.5</span>
-        </li>
-        <li>
-            <img class="wx_cart_img" src="images/products_1.png" alt="">
-            <div class="wx_cart_body">
-                <a class="wx_cart_body_title" href="">可口可乐</a>
-                <div class="option">
-                    <div class="change_box">
-                        <span class="change_box_left">-</span>
-                        <input type="tel" placeholder="0" value="1">
-                        <span class="change_box_right">+</span>
-                    </div>
-                    <div class="delete_box">
-                        <div class="delete_box_top"></div>
-                        <div class="delete_box_bottom"></div>
-                    </div>
-                </div>
-            </div>
-            <span class="wx_cart_right">&yen; 2.5</span>
-        </li>
-        <li>
-            <img class="wx_cart_img" src="images/products_1.png" alt="">
-            <div class="wx_cart_body">
-                <a class="wx_cart_body_title" href="">可口可乐</a>
-                <div class="option">
-                    <div class="change_box">
-                        <span class="change_box_left">-</span>
-                        <input type="tel" placeholder="0" value="1">
-                        <span class="change_box_right">+</span>
-                    </div>
-                    <div class="delete_box">
-                        <div class="delete_box_top"></div>
-                        <div class="delete_box_bottom"></div>
-                    </div>
-                </div>
-            </div>
-            <span class="wx_cart_right">&yen; 2.5</span>
+            <span class="wx_cart_right">&yen; {{item.goods.goods_price}}</span>
         </li>
     </ul>
     <div class="wx_cart_amount">

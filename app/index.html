@@ -15,7 +15,9 @@
     <script src="./third_package/angular/angular.min.js"></script>
     <script src="./third_package/angular-route/angular-route.min.js"></script>
     <script src="./third_package/angular-loader/angular-loader.min.js"></script>
+    <script src="./third_package/aui-angular-popups/angular-popups.js"></script>
     <script src="app.js"></script>
+    <script src="./e_cart/controller.js"></script>
     <script src="./e_category/controller.js"></script>
     <script src="./components/autofocuscategory.js"></script>
     <script src="./components/autofocusmenu.js"></script>
@@ -24,7 +26,7 @@
 </head>
 
 <body>
-    <div class="weui-tab">
+    <div class="weui-tab"  ng-controller="eschoolCotroller">
         <div class="weui-tab__panel" ng-view>
             
         </div>
@@ -33,9 +35,10 @@
                 <img src="./images/home.png" alt="" class="weui-tabbar__icon">
                 <p class="weui-tabbar__label">首页</p>
             </a>
-            <a href="javascript:;" data-tab="wx_cart" class="weui-tabbar__item" autofocus-Menu>
+            <a href="#/cart" data-tab="wx_cart" class="weui-tabbar__item" style="position:relative;" autofocus-Menu>
                 <img src="./images/cart.png" alt="" class="weui-tabbar__icon">
                 <p class="weui-tabbar__label">购物车</p>
+                <span>{{cartSum}}</span>
             </a>
             <a href="javascript:;" data-tab="wx_mine" class="weui-tabbar__item" autofocus-Menu>
                 <img src="./images/mine.png" alt="" class="weui-tabbar__icon">

@@ -15,11 +15,13 @@
         '$http',
         '$routeParams',
         'AppConfig',
-        function($scope, $route, $http, $routeParams, AppConfig) {
+        'Popup',
+        function($scope, $route, $http, $routeParams, AppConfig, Popup) {
             //params
             var category_id = $routeParams.categoryid;
             var user_id = "123";
             var carts_goods = [];
+            var carts_sum = 0;
             //model
             $scope.categoryid = category_id;
             $scope.categorylist = [];
@@ -37,31 +39,37 @@
             }, function(res) {
 
             });
-            /*2.0 carts*/
-            if(user_id){
-                $http.get(AppConfig.eschoolAPI + 'Shopping/CartListGet?user_id=' + user_id).then(function(res){
-                    carts_goods = res.data.Data;
-                },function(res){
+            /*2.0 goods*/
+            $http.get(AppConfig.eschoolAPI + 'Shopping/CartListGet?user_id=' + user_id).then(function(response) {
+                //I cart
+                carts_goods = response.data.Data;
+                for (var i = 0; i < carts_goods.length; i++) {
+                    carts_sum += carts_goods[i].cart_num;
+                }
+                //update carts_mum
+                $scope.$emit("cartsumEvent", carts_sum);
 
-                });
-            }
-            /*3.0 goods*/
-            if (category_id != 'default') {
-                $http.get(AppConfig.eschoolAPI + 'Goods/GoodsListGet?category_id=' + category_id, { 'headers': { 'Accept': 'application/json' } }).then(function(res) {
-                    console.log(res.data);
-                    $scope.goodslist = res.data.Data;
-                    //arr
-                    if ($scope.goodslist) {
-                        var arr = [];
-                        for (var i = 0; i < $scope.goodslist.length; i++) {
-                            arr[i] = 0;
+                //II goods
+                if (category_id != 'default') {
+                    $http.get(AppConfig.eschoolAPI + 'Goods/GoodsListGet?category_id=' + category_id, { 'headers': { 'Accept': 'application/json' } }).then(function(res) {
+                        $scope.goodslist = res.data.Data;
+                        //arr
+                        if ($scope.goodslist) {
+                            var arr = [];
+                            for (var i = 0; i < $scope.goodslist.length; i++) {
+                                arr[i] = 0;
+                                arr[i] = getCartGoodsNum($scope.goodslist[i].goods_id);
+                            }
+                            console.log(arr);
+                            $scope.itemnum = arr;
                         }
-                        $scope.itemnum = arr;
-                    }
-                }, function(res) {
+                        //console.log(arr);
+                    }, function(res) {
 
-                });
-            }
+                    });
+                }
+            });
+
 
             //fucntion
             $scope.goCategory = function(cat_id) {
@@ -71,6 +79,10 @@
             $scope.buy = function($index, user_id, goods_id) {
                 if ($scope.itemnum[$index] == 0) {
                     $scope.itemnum[$index]++;
+                    //update carts_mum
+                    carts_sum++;
+                    $scope.$emit("cartsumEvent", carts_sum);
+
                     console.log($scope.itemnum[$index]);
                     updateCartNum(user_id, goods_id, $scope.itemnum[$index]);
                 }
@@ -79,16 +91,31 @@
                 var current_num = $scope.itemnum[$index];
                 //删除
                 if (current_num == 1) {
-                    $scope.itemnum[$index]--;
-                    deleteCart(user_id, goods_id);
+                    Popup.confirm('确定取消此商品？', function() {
+                        $scope.itemnum[$index]--;
+                        deleteCart(user_id, goods_id);
+
+                        //update carts_mum
+                        carts_sum--;
+                        $scope.$emit("cartsumEvent", carts_sum);
+                    }, function() {
+                        console.log('cancel');
+                    });
+
                 } else {
                     $scope.itemnum[$index]--;
                     updateCartNum(user_id, goods_id, $scope.itemnum[$index]);
+                    //update carts_mum
+                    carts_sum--;
+                    $scope.$emit("cartsumEvent", carts_sum);
                 }
-
             };
             $scope.add = function($index, user_id, goods_id) {
                 $scope.itemnum[$index]++;
+                //update carts_mum
+                carts_sum++;
+                $scope.$emit("cartsumEvent", carts_sum);
+
                 updateCartNum(user_id, goods_id, $scope.itemnum[$index]);
             };
 
@@ -109,6 +136,15 @@
                 }).then(function(res) {
                     console.log(res);
                 });
+            };
+
+            var getCartGoodsNum = function(goods_id) {
+                for (var i = 0; i < carts_goods.length; i++) {
+                    if (carts_goods[i].goods_id == goods_id) {
+                        return carts_goods[i].cart_num - 0;
+                    }
+                }
+                return 0;
             };
 
         }

@@ -6,3 +6,19 @@
 .school_dom_hide{
 	display: none !important;
 }
+
+
+
+.weui-tabbar .weui-tabbar__item span{
+	display: block;
+	position: absolute;
+	top:-2px;
+	right: 30px;
+	height: 20px;
+	width: 20px;
+	border-radius: 5px;
+	background-color: #ff4a00;
+	color: #fff;
+	line-height: 20px;
+	font-size: 10px;
+} 

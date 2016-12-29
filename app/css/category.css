@@ -26,6 +26,7 @@
     border-bottom: 1px solid #e0e0e0;
     border-right: 1px solid #e0e0e0;
     text-align: center;
+    position: relative;
 }
 
 #wx_category .category_left ul li.selected {
@@ -42,6 +43,21 @@
     border-left: 3px solid #c00000;
     position: absolute;
 }
+
+/* #wx_category .category_left ul li span {
+    content: "";
+    display: block;
+    height: 20px;
+    width: 20px;
+    border-radius: 5px;
+    background-color: #ff4a00;
+    color: #fff;
+    font-size:10px;
+    line-height: 20px;
+    top: 0;
+    right: 5px;
+    position: absolute;
+} */
 
 #wx_category .category_left ul li a {
     display: block;
