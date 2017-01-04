@@ -57,13 +57,10 @@
                         if ($scope.goodslist) {
                             var arr = [];
                             for (var i = 0; i < $scope.goodslist.length; i++) {
-                                arr[i] = 0;
                                 arr[i] = getCartGoodsNum($scope.goodslist[i].goods_id);
                             }
-                            console.log(arr);
                             $scope.itemnum = arr;
                         }
-                        //console.log(arr);
                     }, function(res) {
 
                     });

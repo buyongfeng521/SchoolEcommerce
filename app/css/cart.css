@@ -144,3 +144,49 @@
     font-weight: bold;
     color: #2baf2b;
 }
+
+
+
+/* submitorder */
+#wx_cart_submitorder {
+    position: relative;
+    height: 100%;
+    width: 100%;
+}
+#wx_cart_submitorder .wx_order_amount {
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    height: 40px;
+    margin-bottom: 58px;
+    border-top: 1px solid #e0e0e0;
+    background: rgba(256, 256, 256, 1);
+}
+
+#wx_cart_submitorder .wx_order_amount .wx_order_amount_go {
+    display: block;
+    float: right;
+    margin-left: 10px;
+    width: 100px;
+    height: 40px;
+    line-height: 40px;
+    border: none;
+    font-size: 14px;
+    font-weight: bold;
+    text-align: center;
+    color: #fff;
+    background-color: #2baf2b;
+}
+
+#wx_cart_submitorder .wx_order_amount .wx_order_amount_num {
+    font-size: 14px;
+    line-height: 40px;
+    float: right;
+    color: #666;
+}
+
+#wx_cart_submitorder .wx_order_amount .wx_order_amount_num span {
+    font-weight: bold;
+    color: #2baf2b;
+}

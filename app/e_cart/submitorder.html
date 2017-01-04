@@ -1,0 +1,30 @@
+<div id="wx_cart_submitorder">
+    <div class="weui-cells">
+        <a class="weui-cell weui-cell_access" href="javascript:;">
+            <div class="weui-cell__bd">
+                <p>苏州市姑苏区苏州大学1区8栋6层601</p>
+            </div>
+            <div class="weui-cell__ft">
+            </div>
+        </a>
+    </div>
+    <div class="weui-cells">
+        <div class="weui-cell" ng-repeat="item in cartlist">
+            <div class="weui-cell__bd">
+                <p>{{item.goods.goods_name}}：</p>
+            </div>
+            <div class="weui-cell__ft">x {{item.cart_num}}</div>
+        </div>
+        <div class="weui-cell">
+            <div class="weui-cell__bd">
+                <p>合计</p>
+            </div>
+            <div class="weui-cell__ft">&yen; {{goodsamount}}</div>
+        </div>
+    </div>
+
+    <div class="wx_order_amount">
+        <a class="wx_order_amount_go" href="#/cart/payprocess">确定下单</a>
+        <div class="wx_order_amount_num">总计：<span>&yen; {{goodsamount}}</span></div>
+    </div>
+</div>

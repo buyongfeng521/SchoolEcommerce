@@ -18,6 +18,7 @@
     <script src="./third_package/aui-angular-popups/angular-popups.js"></script>
     <script src="app.js"></script>
     <script src="./e_cart/controller.js"></script>
+    <script src="./e_mine/controller.js"></script>
     <script src="./e_category/controller.js"></script>
     <script src="./components/autofocuscategory.js"></script>
     <script src="./components/autofocusmenu.js"></script>
@@ -38,9 +39,9 @@
             <a href="#/cart" data-tab="wx_cart" class="weui-tabbar__item" style="position:relative;" autofocus-Menu>
                 <img src="./images/cart.png" alt="" class="weui-tabbar__icon">
                 <p class="weui-tabbar__label">购物车</p>
-                <span>{{cartSum}}</span>
+                <span ng-show="cartSum > 0">{{cartSum}}</span>
             </a>
-            <a href="javascript:;" data-tab="wx_mine" class="weui-tabbar__item" autofocus-Menu>
+            <a href="#/mine/main" data-tab="wx_mine" class="weui-tabbar__item" autofocus-Menu>
                 <img src="./images/mine.png" alt="" class="weui-tabbar__icon">
                 <p class="weui-tabbar__label">我的</p>
             </a>

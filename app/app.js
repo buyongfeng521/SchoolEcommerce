@@ -5,6 +5,7 @@ angular.module('eschool', [
         'angular-popups',
         'eschool_category',
         'eschool_cart',
+        'eschool_mine',
         'eschool.directives.autofocuscategory',
         'eschool.directives.autofocusmenu',
         'eschool.directives.goodsselected'
