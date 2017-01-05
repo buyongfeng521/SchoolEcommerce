@@ -1,0 +1,98 @@
+<div id="wx_mine_address_detail" ng-show="status==0">
+    <div class="weui-cells__title">地址</div>
+    <div class="weui-cells weui-cells_form">
+        <div class="weui-cell">
+            <div class="weui-cell__hd">
+                <label class="weui-label">姓名：</label>
+            </div>
+            <div class="weui-cell__bd">
+                <input class="weui-input" type="text" ng-model="consignee" placeholder="请输入姓名" />
+            </div>
+        </div>
+        <div class="weui-cell">
+            <div class="weui-cell__hd">
+                <label class="weui-label">手机：</label>
+            </div>
+            <div class="weui-cell__bd">
+                <input class="weui-input" type="number" pattern="[0-9]*" ng-model="phone" placeholder="请输入手机号码" />
+            </div>
+        </div>
+        <a class="weui-cell weui-cell_access" href="javascript:" ng-click="change_school()">
+            <div class="weui-cell__bd">
+                <p>{{addressDesc}}</p>
+            </div>
+            <div class="weui-cell__ft">
+            </div>
+        </a>
+        <div class="weui-cell weui-cell_switch">
+            <div class="weui-cell__bd">默认</div>
+            <div class="weui-cell__ft">
+                <input id="is_default" class="weui-switch" type="checkbox" ng-model="is_default"/>
+            </div>
+        </div>
+    </div>
+    <div class="weui-btn-area">
+        <a class="weui-btn weui-btn_primary" href="javascript:" ng-click="save_address()">确定</a>
+    </div>
+</div>
+
+<div id="wx_mine_address_school" ng-show="status==1">
+    <div class="weui-cells__title">选择学校</div>
+    <div class="weui-cells">
+        <a ng-repeat="item in schoolList" class="weui-cell weui-cell_access" href="javascript:;" ng-click="change_area(item.school_id,item.school_name)">
+            <div class="weui-cell__bd">
+                <p>{{item.school_name}}</p>
+            </div>
+            <div class="weui-cell__ft">
+            </div>
+        </a>
+    </div>
+</div>
+<div id="wx_mine_address_area" ng-show="status==2">
+    <div class="weui-cells__title">选择区域</div>
+    <div class="weui-cells">
+        <a ng-repeat="item in areaList" class="weui-cell weui-cell_access" href="javascript:;" ng-click="change_building(item.area_id,item.area_name)">
+            <div class="weui-cell__bd">
+                <p>{{item.area_name}}</p>
+            </div>
+            <div class="weui-cell__ft">
+            </div>
+        </a>
+    </div>
+</div>
+<div id="wx_mine_address_building" ng-show="status==3">
+    <div class="weui-cells__title">选择楼号</div>
+    <div class="weui-cells">
+        <a ng-repeat="item in buildingList" class="weui-cell weui-cell_access" href="javascript:;" ng-click="change_layer(item.building_id,item.building_name)">
+            <div class="weui-cell__bd">
+                <p>{{item.building_name}}</p>
+            </div>
+            <div class="weui-cell__ft">
+            </div>
+        </a>
+    </div>
+</div>
+<div id="wx_mine_address_layer" ng-show="status==4">
+    <div class="weui-cells__title">选择楼层</div>
+    <div class="weui-cells">
+        <a ng-repeat="item in layerList" class="weui-cell weui-cell_access" href="javascript:;" ng-click="change_room(item)">
+            <div class="weui-cell__bd">
+                <p>{{item}}</p>
+            </div>
+            <div class="weui-cell__ft">
+            </div>
+        </a>
+    </div>
+</div>
+<div id="wx_mine_address_layer" ng-show="status==5">
+    <div class="weui-cells__title">选择寝室</div>
+    <div class="weui-cells">
+        <a ng-repeat="item in roomList" class="weui-cell weui-cell_access" href="javascript:;" ng-click="change_finish(item.room_id,item.room_num)">
+            <div class="weui-cell__bd">
+                <p>{{item.room_num}}</p>
+            </div>
+            <div class="weui-cell__ft">
+            </div>
+        </a>
+    </div>
+</div>
