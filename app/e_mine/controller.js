@@ -28,15 +28,48 @@
     module.controller('EMineOrderController', ['$scope', function($scope) {
 
     }]);
-    module.controller('EMineAddressController', ['$scope', function($scope) {
-
-    }]);
-    module.controller('EMineAddressDetailController', ['$scope',
+    module.controller('EMineAddressController', ['$scope',
+        '$location',
         '$http',
         '$route',
         '$routeParams',
         'AppConfig',
-        function($scope, $http, $route, $routeParams, AppConfig) {
+        'Popup',
+        function($scope, $location, $http, $route, $routeParams, AppConfig, Popup) {
+            $scope.userAddressList = [];
+            $scope.userId = "123";
+
+            $scope.delAddress = function(ua_id) {
+                Popup.confirm('确定删除此地址？', function() {
+                    $http.post(AppConfig.eschoolAPI + 'Mine/UserAddressDelete', { 'ua_id': ua_id }).then(function(res) {
+                        console.log(res);
+                        initData();
+                    });
+                }, function() {
+                    console.log('cancel');
+                });
+            };
+
+            var initData = function() {
+                $http.get(AppConfig.eschoolAPI + 'Mine/UserAddressGet?user_id=' + $scope.userId).then(function(res) {
+                    $scope.userAddressList = res.data.Data;
+                });
+            };
+
+            initData();
+
+        }
+    ]);
+    module.controller('EMineAddressDetailController', ['$scope',
+        '$location',
+        '$http',
+        '$route',
+        '$routeParams',
+        'AppConfig',
+        function($scope, $location, $http, $route, $routeParams, AppConfig) {
+            $scope.consignee = "";
+            $scope.phone = "";
+
             $scope.id = $routeParams.id;
             $scope.status = 0;
             $scope.schoolList = [];
@@ -47,6 +80,7 @@
             $scope.buildingId = "";
             $scope.roomId = "";
 
+            $scope.userId = "123";
             $scope.schoolName = "";
             $scope.areaName = "";
             $scope.buildingName = "";
@@ -104,19 +138,20 @@
             };
 
             $scope.save_address = function() {
-                //1.0 add
-                if (!$scope.id) {
-                    $http.post(AppConfig.eschoolAPI + 'Mine/UserAddressSave', {
-                        'user_id': user_id,
-                        'goods_id': goods_id
-                    }).then(function(res) {
-                        console.log(res);
-                    });
-                }
-                //2.0 edit
-                else {
-
-                }
+                // add/edit
+                $http.post(AppConfig.eschoolAPI + 'Mine/UserAddressSave', {
+                    'ua_id': $scope.id,
+                    'user_id': $scope.userId,
+                    'consignee': $scope.consignee,
+                    'phone': $scope.phone,
+                    'room_id': $scope.roomId,
+                    'is_default': $scope.is_default
+                }).then(function(res) {
+                    console.log(res);
+                    $location.path('/mine/main/address');
+                }, function(res) {
+                    console.log(res);
+                });
 
 
                 console.log($scope.id);
@@ -126,6 +161,27 @@
                 console.log($scope.is_default);
 
             };
+
+
+            var initData = function(ua_id) {
+                $http.get(AppConfig.eschoolAPI + 'Mine/UserAddressEntityGet?ua_id=' + ua_id).then(function(res) {
+                    var userAddressModel = res.data.Data;
+                    $scope.consignee = userAddressModel.consignee;
+                    $scope.phone = userAddressModel.phone - 0;
+
+                    $scope.schoolName = userAddressModel.room.school_name;
+                    $scope.areaName = userAddressModel.room.area_name;
+                    $scope.buildingName = userAddressModel.room.building_name;
+                    $scope.roomNum = userAddressModel.room.room_num;
+                    $scope.addressDesc = $scope.schoolName + $scope.areaName + $scope.buildingName + $scope.roomNum.toString();
+                    $scope.is_default = userAddressModel.is_default;
+                    $scope.roomId = userAddressModel.room.room_id;
+                });
+            };
+
+            if ($scope.id != "0") {
+                initData($scope.id);
+            }
 
         }
     ]);

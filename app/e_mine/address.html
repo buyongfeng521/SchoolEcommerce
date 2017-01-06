@@ -1,46 +1,27 @@
 <div id="wx_mine_address">
     <ul>
-        <li>
+        <li ng-repeat="item in userAddressList">
             <div class="weui-panel weui-panel_access">
-                <div class="weui-panel__hd">地点：苏州市姑苏区彩香二村</div>
+                <div class="weui-panel__hd">地点：{{item.room.school_name}}</div>
                 <div class="weui-panel__bd">
                     <div class="weui-media-box weui-media-box_text">
-                        <h4 class="weui-media-box__title">小米  &nbsp;&nbsp;&nbsp;&nbsp;18601681037</h4>
+                        <h4 class="weui-media-box__title">{{item.consignee}}  &nbsp;&nbsp;&nbsp;&nbsp;{{item.phone}}</h4>
                         <p class="weui-media-box__desc">
-                            1南区 8栋南 6楼 601
+                            {{item.room.area_name}} {{item.room.building_name}} {{item.room.room_num}}
                         </p>
                     </div>
                 </div>
                 <div class="weui-panel__ft">
                     <div class="weui-cell weui-cell_link">
-                        <span class="a_is_default">[默认地址]</span>
-                        <a href="javascript:" class="a_del">删除</a>
-                        <a href="javascript:" class="a_edit">编辑</a>
+                        <span class="a_is_default" ng-show="item.is_default">[默认地址]</span>
+                        <span class="a_is_default" ng-show="!item.is_default">&nbsp;</span>
+                        <a href="javascript:" class="a_del" ng-click="delAddress(item.ua_id)">删除</a>
+                        <a ng-href="#/mine/main/address/detail/{{item.ua_id}}" class="a_edit">编辑</a>
                     </div>
                 </div>
             </div>
         </li>
-        <li>
-            <div class="weui-panel weui-panel_access">
-                <div class="weui-panel__hd">地点：苏州市姑苏区彩香二村</div>
-                <div class="weui-panel__bd">
-                    <div class="weui-media-box weui-media-box_text">
-                        <h4 class="weui-media-box__title">小米  &nbsp;&nbsp;&nbsp;&nbsp;18601681037</h4>
-                        <p class="weui-media-box__desc">
-                            1南区 8栋南 6楼 601
-                        </p>
-                    </div>
-                </div>
-                <div class="weui-panel__ft">
-                    <div class="weui-cell weui-cell_link">
-                        <span class="a_is_default">&nbsp;</span>
-                        <a href="javascript:" class="a_del">删除</a>
-                        <a href="javascript:" class="a_edit">编辑</a>
-                    </div>
-                </div>
-            </div>
-        </li>
-        <li>
+        <!-- <li>
             <div class="weui-panel weui-panel_access">
                 <div class="weui-panel__hd">地点：苏州市姑苏区彩香二村</div>
                 <div class="weui-panel__bd">
@@ -59,7 +40,7 @@
                     </div>
                 </div>
             </div>
-        </li>
+        </li> -->
     </ul>
     <a class="a_add_address" href="#/mine/main/address/detail/0">新增地址</button>
 </div>
