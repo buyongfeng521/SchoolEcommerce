@@ -2,6 +2,7 @@
 
 angular.module('eschool', [
         'ngRoute',
+        'ngCookies',
         'angular-popups',
         'eschool_category',
         'eschool_cart',
@@ -21,6 +22,34 @@ angular.module('eschool', [
         PopupProvider.title = '提示';
         PopupProvider.okValue = '确定';
         PopupProvider.cancelValue = '取消';
+    }])
+    .factory('AuthServer', ['$cookies', function($cookies) {
+        var authSer = {};
+
+        authSer.login = function(openid) {
+            var user = {
+                'token': '1234567890',
+                'user_name': '网络小菜'
+            };
+            $cookies.putObject('SEUserInfo', user, { expires: new Date(new Date().getTime() + 31536000000) });
+            return user;
+        };
+
+        authSer.getUserInfo = function() {
+            return $cookies.getObject('SEUserInfo');
+        };
+
+        authSer.getUserToken = function(){
+            var user = $cookies.getObject('SEUserInfo');
+            if(user){
+                return user.token;
+            }
+            else{
+                return "";
+            }
+        };
+
+        return authSer;
     }])
     /*.factory('CommomData', function() {
         return {
