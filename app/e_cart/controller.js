@@ -24,7 +24,7 @@
         'AppConfig',
         'Popup',
         'AuthService',
-        function($scope, $route, $http, AppConfig, Popup,AuthService) {
+        function($scope, $route, $http, AppConfig, Popup, AuthService) {
             var token = AuthService.getUserToken();
             $scope.token = token;
             var carts_sum = 0;
@@ -123,11 +123,17 @@
         '$http',
         'AppConfig',
         'AuthService',
-        function($scope, $route, $http, AppConfig,AuthService) {
+        function($scope, $route, $http, AppConfig, AuthService) {
             var token = AuthService.getUserToken();
             $scope.token = token;
+            $scope.addressdesc = '选择地址';
+            $scope.consignee = '';
             $scope.cartlist = [];
             $scope.goodsamount = 0;
+
+            $scope.addresslist = [];
+            $scope.isdefaultid = '';
+            $scope.showaddresslist = false;
 
             $http.get(AppConfig.eschoolAPI + 'Shopping/CartListGet?token=' + token).then(function(res) {
                 $scope.cartlist = res.data.Data;
@@ -137,10 +143,34 @@
                 }
                 $scope.goodsamount = goods_amount;
             });
+
+            $http.get(AppConfig.eschoolAPI + 'Mine/UserAddressGet?token=' + $scope.token).then(function(res) {
+                $scope.addresslist = res.data.Data;
+                for (var i = 0; i < $scope.addresslist.length; i++) {
+                    if ($scope.addresslist[i].is_default == true) {
+                        $scope.isdefaultid = $scope.addresslist[i].ua_id;
+                        $scope.addressdesc = $scope.addresslist[i].room.school_name + $scope.addresslist[i].room.area_name + $scope.addresslist[i].room.building_name + $scope.addresslist[i].room.room_num;
+                        $scope.consignee = $scope.addresslist[i].consignee;
+                        break;
+                    }
+                }
+            });
+
+            $scope.goAddressList = function() {
+                $scope.showaddresslist = true;
+            };
+
+            $scope.changeAddress = function(ua_id,consignee,school_name,area_name,building_name,room_num) {
+                $scope.showaddresslist = false;
+                $scope.isdefaultid = ua_id;
+                $scope.addressdesc = school_name + area_name + building_name + room_num;
+                $scope.consignee = consignee;
+            };
+
         }
     ]);
 
     module.controller('ECartPayProcessController', ['$scope', function($scope) {
-
+        
     }]);
 })(angular);

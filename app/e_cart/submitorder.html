@@ -1,10 +1,11 @@
-<div id="wx_cart_submitorder">
+<div id="wx_cart_submitorder" ng-show="!showaddresslist">
     <div class="weui-cells">
-        <a class="weui-cell weui-cell_access" href="javascript:;">
+        <a class="weui-cell weui-cell_access" href="javascript:;" ng-click="goAddressList()">
             <div class="weui-cell__bd">
-                <p>苏州市姑苏区苏州大学1区8栋6层601</p>
+                <p>{{addressdesc}}</p>
             </div>
             <div class="weui-cell__ft">
+                {{consignee}}
             </div>
         </a>
     </div>
@@ -22,9 +23,25 @@
             <div class="weui-cell__ft">&yen; {{goodsamount}}</div>
         </div>
     </div>
-
     <div class="wx_order_amount">
         <a class="wx_order_amount_go" href="#/cart/payprocess">确定下单</a>
         <div class="wx_order_amount_num">总计：<span>&yen; {{goodsamount}}</span></div>
     </div>
 </div>
+<!--Address List-->
+<ul ng-show="showaddresslist">
+    <li ng-repeat="item in addresslist" ng-click="changeAddress(item.ua_id,item.consignee,item.room.school_name,item.room.area_name,item.room.building_name,item.room.room_num)">
+        <div class="weui-panel weui-panel_access">
+            <div class="weui-panel__bd">
+                <div class="weui-media-box weui-media-box_text">
+                    <h4 class="weui-media-box__title">
+                        <span ng-show="item.is_default" style="color:#f23030">【默认地址】</span> &nbsp;&nbsp; {{item.consignee}} &nbsp;&nbsp; {{item.phone}}
+                    </h4>
+                    <p class="weui-media-box__desc" style="font-size: 16px">
+                        {{item.room.school_name}} {{item.room.area_name}} {{item.room.building_name}} {{item.room.room_num}}
+                    </p>
+                </div>
+            </div>
+        </div>
+    </li>
+</ul>
