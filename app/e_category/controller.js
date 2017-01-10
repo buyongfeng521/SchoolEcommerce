@@ -16,10 +16,12 @@
         '$routeParams',
         'AppConfig',
         'Popup',
-        function($scope, $route, $http, $routeParams, AppConfig, Popup) {
+        'AuthService',
+        function($scope, $route, $http, $routeParams, AppConfig, Popup, AuthService) {
             //params
             var category_id = $routeParams.categoryid;
-            var user_id = "123";
+            var token = AuthService.getUserToken();
+            $scope.token = token;
             var carts_goods = [];
             var carts_sum = 0;
             //model
@@ -40,11 +42,13 @@
 
             });
             /*2.0 goods*/
-            $http.get(AppConfig.eschoolAPI + 'Shopping/CartListGet?user_id=' + user_id).then(function(response) {
+            $http.get(AppConfig.eschoolAPI + 'Shopping/CartListGet?token=' + token).then(function(response) {
                 //I cart
                 carts_goods = response.data.Data;
-                for (var i = 0; i < carts_goods.length; i++) {
-                    carts_sum += carts_goods[i].cart_num;
+                if (carts_goods) {
+                    for (var i = 0; i < carts_goods.length; i++) {
+                        carts_sum += carts_goods[i].cart_num;
+                    }
                 }
                 //update carts_mum
                 $scope.$emit("cartsumEvent", carts_sum);
@@ -56,8 +60,10 @@
                         //arr
                         if ($scope.goodslist) {
                             var arr = [];
-                            for (var i = 0; i < $scope.goodslist.length; i++) {
-                                arr[i] = getCartGoodsNum($scope.goodslist[i].goods_id);
+                            if ($scope.goodslist) {
+                                for (var i = 0; i < $scope.goodslist.length; i++) {
+                                    arr[i] = getCartGoodsNum($scope.goodslist[i].goods_id);
+                                }
                             }
                             $scope.itemnum = arr;
                         }
@@ -73,7 +79,7 @@
                 console.log(cat_id);
                 $route.updateParams({ categoryid: cat_id });
             };
-            $scope.buy = function($index, user_id, goods_id) {
+            $scope.buy = function($index, token, goods_id) {
                 if ($scope.itemnum[$index] == 0) {
                     $scope.itemnum[$index]++;
                     //update carts_mum
@@ -81,16 +87,16 @@
                     $scope.$emit("cartsumEvent", carts_sum);
 
                     console.log($scope.itemnum[$index]);
-                    updateCartNum(user_id, goods_id, $scope.itemnum[$index]);
+                    updateCartNum(token, goods_id, $scope.itemnum[$index]);
                 }
             };
-            $scope.minus = function($index, user_id, goods_id) {
+            $scope.minus = function($index, token, goods_id) {
                 var current_num = $scope.itemnum[$index];
                 //删除
                 if (current_num == 1) {
                     Popup.confirm('确定取消此商品？', function() {
                         $scope.itemnum[$index]--;
-                        deleteCart(user_id, goods_id);
+                        deleteCart(token, goods_id);
 
                         //update carts_mum
                         carts_sum--;
@@ -101,24 +107,24 @@
 
                 } else {
                     $scope.itemnum[$index]--;
-                    updateCartNum(user_id, goods_id, $scope.itemnum[$index]);
+                    updateCartNum(token, goods_id, $scope.itemnum[$index]);
                     //update carts_mum
                     carts_sum--;
                     $scope.$emit("cartsumEvent", carts_sum);
                 }
             };
-            $scope.add = function($index, user_id, goods_id) {
+            $scope.add = function($index, token, goods_id) {
                 $scope.itemnum[$index]++;
                 //update carts_mum
                 carts_sum++;
                 $scope.$emit("cartsumEvent", carts_sum);
 
-                updateCartNum(user_id, goods_id, $scope.itemnum[$index]);
+                updateCartNum(token, goods_id, $scope.itemnum[$index]);
             };
 
-            var updateCartNum = function(user_id, goods_id, num) {
+            var updateCartNum = function(token, goods_id, num) {
                 $http.post(AppConfig.eschoolAPI + 'Shopping/CartAdd', {
-                    'user_id': user_id,
+                    'token': token,
                     'goods_id': goods_id,
                     'cart_num': num
                 }).then(function(res) {
@@ -126,9 +132,9 @@
                 });
             };
 
-            var deleteCart = function(user_id, goods_id) {
+            var deleteCart = function(token, goods_id) {
                 $http.post(AppConfig.eschoolAPI + 'Shopping/CartDelete', {
-                    'user_id': user_id,
+                    'token': token,
                     'goods_id': goods_id
                 }).then(function(res) {
                     console.log(res);
@@ -136,9 +142,11 @@
             };
 
             var getCartGoodsNum = function(goods_id) {
-                for (var i = 0; i < carts_goods.length; i++) {
-                    if (carts_goods[i].goods_id == goods_id) {
-                        return carts_goods[i].cart_num - 0;
+                if (carts_goods) {
+                    for (var i = 0; i < carts_goods.length; i++) {
+                        if (carts_goods[i].goods_id == goods_id) {
+                            return carts_goods[i].cart_num - 0;
+                        }
                     }
                 }
                 return 0;

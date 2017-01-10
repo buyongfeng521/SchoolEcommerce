@@ -133,6 +133,21 @@
     background-color: #2baf2b;
 }
 
+#wx_cart .wx_cart_amount .wx_cart_amount_go_disable {
+    display: block;
+    float: right;
+    margin-left: 10px;
+    width: 100px;
+    height: 40px;
+    line-height: 40px;
+    border: none;
+    font-size: 14px;
+    font-weight: bold;
+    text-align: center;
+    color: #fff;
+    background-color: #e0e0e0;
+}
+
 #wx_cart .wx_cart_amount .wx_cart_amount_num {
     font-size: 14px;
     line-height: 40px;
@@ -178,6 +193,7 @@
     color: #fff;
     background-color: #2baf2b;
 }
+
 
 #wx_cart_submitorder .wx_order_amount .wx_order_amount_num {
     font-size: 14px;

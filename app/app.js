@@ -7,9 +7,11 @@ angular.module('eschool', [
         'eschool_category',
         'eschool_cart',
         'eschool_mine',
+        'eschool_login',
         'eschool.directives.autofocuscategory',
         'eschool.directives.autofocusmenu',
-        'eschool.directives.goodsselected'
+        'eschool.directives.goodsselected',
+        'eschool.directives.logindialog'
     ])
     /*为模块定义一些常量*/
     .constant('AppConfig', {
@@ -23,50 +25,67 @@ angular.module('eschool', [
         PopupProvider.okValue = '确定';
         PopupProvider.cancelValue = '取消';
     }])
-    .factory('AuthServer', ['$cookies', function($cookies) {
+    .factory('AuthService', ['$cookies', '$http','$q', 'AppConfig', function($cookies, $http,$q, AppConfig) {
         var authSer = {};
 
         authSer.login = function(openid) {
-            var user = {
-                'token': '1234567890',
-                'user_name': '网络小菜'
-            };
-            $cookies.putObject('SEUserInfo', user, { expires: new Date(new Date().getTime() + 31536000000) });
-            return user;
+            var token = '';
+            var deferred = $q.defer();
+            $http.post(AppConfig.eschoolAPI + 'Mine/LoginWX', {
+                'open_id': openid
+            }).then(function(res) {
+                token = res.data.Data;
+                deferred.resolve(token)
+
+                $cookies.put('SEUserToken', token, { expires: new Date(new Date().getTime() + 31536000000) });
+                /*$scope.$emit("tokenEvent", token);*/
+            });
+            return deferred.promise;
         };
 
-        authSer.getUserInfo = function() {
-            return $cookies.getObject('SEUserInfo');
+        authSer.getUserToken = function() {
+            return $cookies.get('SEUserToken');
         };
 
-        authSer.getUserToken = function(){
-            var user = $cookies.getObject('SEUserInfo');
-            if(user){
-                return user.token;
-            }
-            else{
-                return "";
-            }
+        authSer.isAuth = function() {
+            return !!this.getUserToken();
         };
 
         return authSer;
     }])
-    /*.factory('CommomData', function() {
-        return {
-            CartGoodsSum: 0
-        };
-    })*/
-    .controller('eschoolCotroller', ['$scope', '$http', 'AppConfig', function($scope, $http, AppConfig) {
-        var user_id = "123";
-        $scope.cartSum = 0;
-        $http.get(AppConfig.eschoolAPI + 'Shopping/CartListGet?user_id=' + user_id).then(function(res) {
-            var carts_goods = res.data.Data;
-            for (var i = 0; i < carts_goods.length; i++) {
-                $scope.cartSum += carts_goods[i].cart_num;
-            }
-        });
-        $scope.$on("cartsumEvent", function(event, data) {
-            console.log(data);
-            $scope.cartSum = data;
-        });
-    }]);
+    .controller('eschoolCotroller', ['$scope',
+        '$location',
+        '$http',
+        'AppConfig',
+        'AuthService',
+        function($scope, $location, $http, AppConfig, AuthService) {
+            $scope.isLogin = AuthService.isAuth();
+            $scope.token = AuthService.getUserToken();
+            $scope.cartSum = 0;
+            $http.get(AppConfig.eschoolAPI + 'Shopping/CartListGet?token=' + $scope.token).then(function(res) {
+                console.log(res);
+                var carts_goods = res.data.Data.length > 0 ? res.data.Data : null;
+                if (carts_goods) {
+                    for (var i = 0; i < carts_goods.length; i++) {
+                        $scope.cartSum += carts_goods[i].cart_num;
+                    }
+                }
+            });
+
+            $scope.login = function() {
+                AuthService.login('1234567890').then(function(data){
+                    $scope.token = data;
+                    $scope.isLogin = true;
+                });
+            };
+
+            $scope.$on('cartsumEvent', function(event, data) {
+                console.log(data);
+                $scope.cartSum = data;
+            });
+            $scope.$on('tokenEvent', function(event, data) {
+                $scope.token = data;
+            });
+
+        }
+    ]);

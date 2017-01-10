@@ -10,16 +10,16 @@
     <div class="category_right">
         <ul>
             <li ng-repeat="item in goodslist" >
-                <span class="cat_r_check" ng-show="itemnum[$index] <= 0" ng-click="buy($index,'123',item.goods_id)"></span>
+                <span class="cat_r_check" ng-show="itemnum[$index] <= 0" ng-click="buy($index,token,item.goods_id)"></span>
                 <div class="cat_r_body">
                     <h4>{{item.goods_name}}</h4>
                     <span>&yen; {{item.goods_price}}</span>
                 </div>
                 <img ng-src="{{item.goods_img}}" alt="" class="cat_r_right" ng-show="itemnum[$index] <= 0">
                 <div class="cat_r_change_box" ng-show="itemnum[$index] > 0">
-                    <span class="change_box_left" ng-click="minus($index,'123',item.goods_id)">-</span>
+                    <span class="change_box_left" ng-click="minus($index,token,item.goods_id)">-</span>
                     <label class="change_box_middle">{{itemnum[$index]}}</label>
-                    <span class="change_box_right" ng-click="add($index,'123',item.goods_id)">+</span>
+                    <span class="change_box_right" ng-click="add($index,token,item.goods_id)">+</span>
                 </div>
             </li>
         </ul>

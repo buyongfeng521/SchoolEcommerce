@@ -35,9 +35,10 @@
         '$routeParams',
         'AppConfig',
         'Popup',
-        function($scope, $location, $http, $route, $routeParams, AppConfig, Popup) {
+        'AuthService',
+        function($scope, $location, $http, $route, $routeParams, AppConfig, Popup,AuthService) {
             $scope.userAddressList = [];
-            $scope.userId = "123";
+            $scope.token = AuthService.getUserToken();
 
             $scope.delAddress = function(ua_id) {
                 Popup.confirm('确定删除此地址？', function() {
@@ -51,7 +52,7 @@
             };
 
             var initData = function() {
-                $http.get(AppConfig.eschoolAPI + 'Mine/UserAddressGet?user_id=' + $scope.userId).then(function(res) {
+                $http.get(AppConfig.eschoolAPI + 'Mine/UserAddressGet?token=' + $scope.token).then(function(res) {
                     $scope.userAddressList = res.data.Data;
                 });
             };
@@ -66,7 +67,8 @@
         '$route',
         '$routeParams',
         'AppConfig',
-        function($scope, $location, $http, $route, $routeParams, AppConfig) {
+        'AuthService',
+        function($scope, $location, $http, $route, $routeParams, AppConfig,AuthService) {
             $scope.consignee = "";
             $scope.phone = "";
 
@@ -80,7 +82,7 @@
             $scope.buildingId = "";
             $scope.roomId = "";
 
-            $scope.userId = "123";
+            $scope.token = AuthService.getUserToken();
             $scope.schoolName = "";
             $scope.areaName = "";
             $scope.buildingName = "";
@@ -141,7 +143,7 @@
                 // add/edit
                 $http.post(AppConfig.eschoolAPI + 'Mine/UserAddressSave', {
                     'ua_id': $scope.id,
-                    'user_id': $scope.userId,
+                    'token': $scope.token,
                     'consignee': $scope.consignee,
                     'phone': $scope.phone,
                     'room_id': $scope.roomId,

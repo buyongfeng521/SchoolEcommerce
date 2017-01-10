@@ -7,11 +7,11 @@
                 <a class="wx_cart_body_title" href="">{{item.goods.goods_name}}</a>
                 <div class="option">
                     <div class="change_box">
-                        <span class="change_box_left" ng-click="minus($index,'123',item.goods_id,item.goods.goods_price)">-</span>
+                        <span class="change_box_left" ng-click="minus($index,token,item.goods_id,item.goods.goods_price)">-</span>
                         <input type="tel" placeholder="0" value="{{itemnum[$index]}}">
-                        <span class="change_box_right" ng-click="add($index,'123',item.goods_id,item.goods.goods_price)">+</span>
+                        <span class="change_box_right" ng-click="add($index,token,item.goods_id,item.goods.goods_price)">+</span>
                     </div>
-                    <div class="delete_box" ng-click="delete($index,'123',item.goods_id,item.goods.goods_price)">
+                    <div class="delete_box" ng-click="delete($index,token,item.goods_id,item.goods.goods_price)">
                         <div class="delete_box_top"></div>
                         <div class="delete_box_bottom"></div>
                     </div>
@@ -21,7 +21,8 @@
         </li>
     </ul>
     <div class="wx_cart_amount">
-        <a class="wx_cart_amount_go" href="#/cart/submitorder">去结算</a>
+        <a class="wx_cart_amount_go" ng-show="goodsamount > 0" href="#/cart/submitorder">去结算</a>
+        <a class="wx_cart_amount_go_disable" ng-show="goodsamount <= 0" href="javascript:">去结算</a>
         <div class="wx_cart_amount_num">总计：<span>&yen; {{goodsamount}}</span></div>
     </div>
 </div>

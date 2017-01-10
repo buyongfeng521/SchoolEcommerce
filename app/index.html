@@ -11,27 +11,32 @@
     <link rel="stylesheet" href="./css/category.css">
     <link rel="stylesheet" href="./css/cart.css">
     <link rel="stylesheet" href="./css/mine.css">
-
     <script src="./third_package/angular/angular.min.js"></script>
     <script src="./third_package/angular-route/angular-route.min.js"></script>
     <script src="./third_package/angular-loader/angular-loader.min.js"></script>
+    <script src="./third_package/angular-cookie/angular-cookies.min.js"></script>
     <script src="./third_package/aui-angular-popups/angular-popups.js"></script>
     <script src="app.js"></script>
     <script src="./e_cart/controller.js"></script>
     <script src="./e_mine/controller.js"></script>
     <script src="./e_category/controller.js"></script>
+    <script src="./e_login/controller.js"></script>
     <script src="./components/autofocuscategory.js"></script>
     <script src="./components/autofocusmenu.js"></script>
     <script src="./components/goodsselected.js"></script>
+    <script src="./components/logindialog.js"></script>
     <title></title>
 </head>
 
 <body>
-    <div class="weui-tab"  ng-controller="eschoolCotroller">
-        <div class="weui-tab__panel" ng-view>
-            
+    <div class="weui-tab" ng-controller="eschoolCotroller">
+        <div class="weui-btn-area" ng-show="!isLogin">
+            <a class="weui-btn weui-btn_primary" href="javascript:" ng-click="login()">授权登录</a>
         </div>
-        <div class="weui-tabbar">
+
+        <div class="weui-tab__panel" ng-show="isLogin" ng-view>
+        </div>
+        <div class="weui-tabbar" ng-show="isLogin">
             <a href="#/category/default" class="weui-tabbar__item weui-bar__item_on" autofocus-Menu>
                 <img src="./images/home.png" alt="" class="weui-tabbar__icon">
                 <p class="weui-tabbar__label">首页</p>
@@ -47,7 +52,6 @@
             </a>
         </div>
     </div>
-    
 </body>
 
 </html>
