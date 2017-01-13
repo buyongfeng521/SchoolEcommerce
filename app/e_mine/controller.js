@@ -25,9 +25,42 @@
     module.controller('EMineController', ['$scope', function($scope) {
 
     }]);
-    module.controller('EMineOrderController', ['$scope', function($scope) {
+    module.controller('EMineOrderController', ['$scope',
+        '$location',
+        '$http',
+        '$route',
+        '$routeParams',
+        'AppConfig',
+        'Popup',
+        'AuthService',
+        function($scope, $location, $http, $route, $routeParams, AppConfig, Popup, AuthService) {
+            $scope.token = AuthService.getUserToken();
+            $scope.orderType = 'All';
+            $scope.orderListAll = [];
+            $scope.orderListPrePay = [];
+            $scope.orderListPreFinished = [];
 
-    }]);
+            $http.get(AppConfig.eschoolAPI + 'Shopping/OrderList?token=' + $scope.token).then(function(res){
+                $scope.orderListAll = res.data.Data;
+            });
+
+            $http.get(AppConfig.eschoolAPI + 'Shopping/OrderListPrePay?token=' + $scope.token).then(function(res){
+                $scope.orderListPrePay = res.data.Data;
+            });
+
+            $http.get(AppConfig.eschoolAPI + 'Shopping/OrderListPreFinish?token=' + $scope.token).then(function(res){
+                $scope.orderListPreFinished = res.data.Data;
+            });
+
+
+            $scope.changeTab = function(type){
+                $scope.orderType = type;
+            };
+
+
+
+        }
+    ]);
     module.controller('EMineAddressController', ['$scope',
         '$location',
         '$http',
@@ -36,7 +69,7 @@
         'AppConfig',
         'Popup',
         'AuthService',
-        function($scope, $location, $http, $route, $routeParams, AppConfig, Popup,AuthService) {
+        function($scope, $location, $http, $route, $routeParams, AppConfig, Popup, AuthService) {
             $scope.userAddressList = [];
             $scope.token = AuthService.getUserToken();
 
@@ -68,7 +101,7 @@
         '$routeParams',
         'AppConfig',
         'AuthService',
-        function($scope, $location, $http, $route, $routeParams, AppConfig,AuthService) {
+        function($scope, $location, $http, $route, $routeParams, AppConfig, AuthService) {
             $scope.consignee = "";
             $scope.phone = "";
 
