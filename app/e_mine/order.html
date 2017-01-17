@@ -14,31 +14,33 @@
         <div ng-switch="orderType">
             <ul ng-switch-when="All">
                 <li ng-repeat="item in orderListAll">
-                    <div class="weui-panel weui-panel_access">
-                        <div class="weui-panel__bd">
-                            <div class="weui-media-box weui-media-box_text">
-                                <p class="weui-media-box__title">
-                                    订单号：{{item.order_sn}}
-                                </p>
-                                <p class="weui-media-box__title">
-                                    订单时间：{{item.create_time}}
-                                </p>
-                                <!-- <p class="weui-media-box__title">
+                    <a href="#/mine/main/order/detail/{{item.order_bas_id}}">
+                        <div class="weui-panel weui-panel_access">
+                            <div class="weui-panel__bd">
+                                <div class="weui-media-box weui-media-box_text">
+                                    <p class="weui-media-box__title">
+                                        订单号：{{item.order_sn}}
+                                    </p>
+                                    <p class="weui-media-box__title">
+                                        订单时间：{{item.create_time}}
+                                    </p>
+                                    <!-- <p class="weui-media-box__title">
                                     商品：方便面，火腿肠
                                 </p> -->
-                                <p class="weui-media-box__title">
-                                    总价：&yen;{{item.goods_amount}}
-                                </p>
+                                    <p class="weui-media-box__title">
+                                        总价：&yen;{{item.goods_amount}}
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="weui-panel__ft">
+                                <div class="weui-cell weui-cell_link">
+                                    <span class="o_status">未支付</span>
+                                    <a href="javascript:" ng-click="cancelOrder(item.order_bas_id)" class="o_del">取消订单</a>
+                                    <a href="javascript:" class="o_edit">去支付</a>
+                                </div>
                             </div>
                         </div>
-                        <div class="weui-panel__ft">
-                            <div class="weui-cell weui-cell_link">
-                                <span class="o_status">未支付</span>
-                                <a href="javascript:" class="o_del">取消订单</a>
-                                <a href="javascript:" class="o_edit">去支付</a>
-                            </div>
-                        </div>
-                    </div>
+                    </a>
                 </li>
             </ul>
             <ul ng-switch-when="PrePay">
@@ -64,7 +66,7 @@
                         <div class="weui-panel__ft">
                             <div class="weui-cell weui-cell_link">
                                 <span class="o_status">未支付</span>
-                                <a href="javascript:" class="o_del">取消订单</a>
+                                <a href="javascript:" ng-click="cancelOrder(item.order_bas_id)" class="o_del">取消订单</a>
                                 <a href="javascript:" class="o_edit">去支付</a>
                             </div>
                         </div>
@@ -94,7 +96,7 @@
                         <div class="weui-panel__ft">
                             <div class="weui-cell weui-cell_link">
                                 <span class="o_status">待收货</span>
-                                <a href="javascript:" class="o_edit">确认收货</a>
+                                <a href="javascript:" ng-click="confirmReceiving(item.order_bas_id)" class="o_edit">确认收货</a>
                             </div>
                         </div>
                     </div>

@@ -8,6 +8,10 @@
         }).when('/mine/main/order', {
             templateUrl: 'e_mine/order.html',
             controller: 'EMineOrderController'
+        }).when('/mine/main/order/detail/:id', {
+            //#/mine/main/order/orderdetail/ffaec0bb4cb84970b2780411f3e54cb2
+            templateUrl: 'e_mine/orderdetail.html',
+            controller: 'EMineOrderDetailController'
         }).when('/mine/main/address', {
             templateUrl: 'e_mine/address.html',
             controller: 'EMineAddressController'
@@ -40,27 +44,104 @@
             $scope.orderListPrePay = [];
             $scope.orderListPreFinished = [];
 
-            $http.get(AppConfig.eschoolAPI + 'Shopping/OrderList?token=' + $scope.token).then(function(res){
+            $http.get(AppConfig.eschoolAPI + 'Shopping/OrderList?token=' + $scope.token).then(function(res) {
                 $scope.orderListAll = res.data.Data;
             });
 
-            $http.get(AppConfig.eschoolAPI + 'Shopping/OrderListPrePay?token=' + $scope.token).then(function(res){
+            $http.get(AppConfig.eschoolAPI + 'Shopping/OrderListPrePay?token=' + $scope.token).then(function(res) {
                 $scope.orderListPrePay = res.data.Data;
             });
 
-            $http.get(AppConfig.eschoolAPI + 'Shopping/OrderListPreFinish?token=' + $scope.token).then(function(res){
+            $http.get(AppConfig.eschoolAPI + 'Shopping/OrderListPreFinish?token=' + $scope.token).then(function(res) {
                 $scope.orderListPreFinished = res.data.Data;
             });
 
 
-            $scope.changeTab = function(type){
+            $scope.changeTab = function(type) {
                 $scope.orderType = type;
+            };
+
+
+            $scope.cancelOrder = function(order_id) {
+                Popup.confirm('确定取消订单？', function() {
+                    $http.post(AppConfig.eschoolAPI + 'Shopping/CancelOrder', { 'token': $scope.token, 'order_bas_id': order_id }).then(function(res) {
+                        //$location.path('');
+                        //http://localhost:8080/app/index.html#/mine/main/order
+                        $location.path('/mine/main/order');
+                    });
+                }, function() {
+
+                });
+            };
+
+            $scope.confirmReceiving = function(order_id) {
+                Popup.confirm('确认收货？', function() {
+                    $http.post(AppConfig.eschoolAPI + 'Shopping/FinishOrder', { 'token': $scope.token, 'order_bas_id': order_id }).then(function(res) {
+                        //$location.path('');
+                        //http://localhost:8080/app/index.html#/mine/main/order
+                        $location.path('/mine/main/order');
+                    });
+                });
             };
 
 
 
         }
     ]);
+
+    module.controller('EMineOrderDetailController', ['$scope',
+        '$location',
+        '$http',
+        '$route',
+        '$routeParams',
+        'AppConfig',
+        'Popup',
+        'AuthService',
+        function($scope, $location, $http, $route, $routeParams, AppConfig, Popup, AuthService) {
+            $scope.token = AuthService.getUserToken();
+            $scope.id = $routeParams.id;
+            $scope.orderdetail = [];
+            $scope.addressdesc = '';
+            $scope.consignee = '111';
+            $scope.goodsamount = 0;
+
+            $http.get(AppConfig.eschoolAPI + 'Shopping/OrderDetail?token=' + $scope.token + '&order_bas_id=' + $scope.id).then(function(res) {
+                $scope.orderdetail = res.data.Data;
+                console.log($scope.orderdetail);
+                if ($scope.orderdetail.length > 0) {
+                    $scope.addressdesc = $scope.orderdetail[0].order_bas.address;
+                    $scope.consignee = $scope.orderdetail[0].order_bas.consignee;
+                    $scope.goodsamount = $scope.orderdetail[0].order_bas.goods_amount;
+                }
+            });
+
+            /*$scope.cancelOrder = function(order_id) {
+                Popup.confirm('确定取消订单？', function() {
+                    $http.post(AppConfig.eschoolAPI + 'Shopping/CancelOrder', { 'token': $scope.token, 'order_bas_id': order_id }).then(function(res) {
+                        //$location.path('');
+                        //http://localhost:8080/app/index.html#/mine/main/order
+                        $location.path('/mine/main/order');
+                    });
+                }, function() {
+
+                });
+            };
+
+            $scope.confirmReceiving = function(order_id) {
+                Popup.confirm('确认收货？', function() {
+                    $http.post(AppConfig.eschoolAPI + 'Shopping/FinishOrder', { 'token': $scope.token, 'order_bas_id': order_id }).then(function(res) {
+                        //$location.path('');
+                        //http://localhost:8080/app/index.html#/mine/main/order
+                        $location.path('/mine/main/order');
+                    });
+                });
+            };*/
+
+
+
+        }
+    ]);
+
     module.controller('EMineAddressController', ['$scope',
         '$location',
         '$http',

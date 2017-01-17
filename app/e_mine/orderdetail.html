@@ -1,0 +1,26 @@
+<div>
+    <div class="weui-cells">
+        <a class="weui-cell weui-cell_access" href="javascript:;">
+            <div class="weui-cell__bd">
+                <p>{{addressdesc}}</p>
+            </div>
+            <div class="weui-cell__ft">
+                {{consignee}}
+            </div>
+        </a>
+    </div>
+    <div class="weui-cells">
+        <div class="weui-cell" ng-repeat="item in orderdetail">
+            <div class="weui-cell__bd">
+                <p>{{item.goods_name}}</p>
+            </div>
+            <div class="weui-cell__ft">x {{item.goods_num}}</div>
+        </div>
+        <div class="weui-cell">
+            <div class="weui-cell__bd">
+                <p>合计</p>
+            </div>
+            <div class="weui-cell__ft">&yen; {{goodsamount}}</div>
+        </div>
+    </div>
+</div>
