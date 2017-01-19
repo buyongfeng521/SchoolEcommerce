@@ -33,7 +33,6 @@
         <div class="weui-btn-area" ng-show="!isLogin">
             <a class="weui-btn weui-btn_primary" href="javascript:" ng-click="login()">授权登录</a>
         </div>
-
         <div class="weui-tab__panel" ng-show="isLogin" ng-view>
         </div>
         <div class="weui-tabbar" ng-show="isLogin">
@@ -50,6 +49,13 @@
                 <img src="./images/mine.png" alt="" class="weui-tabbar__icon">
                 <p class="weui-tabbar__label">我的</p>
             </a>
+        </div>
+    </div>
+    
+    <div class="mask" ng-if="loading">
+        <div class="spinner">
+            <div class="dot1"></div>
+            <div class="dot2"></div>
         </div>
     </div>
 </body>

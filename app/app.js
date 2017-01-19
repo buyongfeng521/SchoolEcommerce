@@ -62,8 +62,10 @@ angular.module('eschool', [
             $scope.isLogin = AuthService.isAuth();
             $scope.token = AuthService.getUserToken();
             $scope.cartSum = 0;
+            $scope.loading = true;
             $http.get(AppConfig.eschoolAPI + 'Shopping/CartListGet?token=' + $scope.token).then(function(res) {
                 console.log(res);
+                $scope.loading = false;
                 var carts_goods = res.data.Data.length > 0 ? res.data.Data : null;
                 if (carts_goods) {
                     for (var i = 0; i < carts_goods.length; i++) {
