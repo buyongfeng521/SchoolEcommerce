@@ -56,6 +56,20 @@
                 $scope.orderListPreFinished = res.data.Data;
             });
 
+            var initData = function() {
+                $http.get(AppConfig.eschoolAPI + 'Shopping/OrderList?token=' + $scope.token).then(function(res) {
+                    $scope.orderListAll = res.data.Data;
+                });
+
+                $http.get(AppConfig.eschoolAPI + 'Shopping/OrderListPrePay?token=' + $scope.token).then(function(res) {
+                    $scope.orderListPrePay = res.data.Data;
+                });
+
+                $http.get(AppConfig.eschoolAPI + 'Shopping/OrderListPreFinish?token=' + $scope.token).then(function(res) {
+                    $scope.orderListPreFinished = res.data.Data;
+                });
+            };
+
 
             $scope.changeTab = function(type) {
                 $scope.orderType = type;
@@ -67,7 +81,8 @@
                     $http.post(AppConfig.eschoolAPI + 'Shopping/CancelOrder', { 'token': $scope.token, 'order_bas_id': order_id }).then(function(res) {
                         //$location.path('');
                         //http://localhost:8080/app/index.html#/mine/main/order
-                        $location.path('/mine/main/order');
+                        //$location.path('/mine/main/order');
+                        initData();
                     });
                 }, function() {
 
@@ -79,7 +94,8 @@
                     $http.post(AppConfig.eschoolAPI + 'Shopping/FinishOrder', { 'token': $scope.token, 'order_bas_id': order_id }).then(function(res) {
                         //$location.path('');
                         //http://localhost:8080/app/index.html#/mine/main/order
-                        $location.path('/mine/main/order');
+                        //$location.path('/mine/main/order');
+                        initData();
                     });
                 });
             };
@@ -115,7 +131,7 @@
                 }
             });
 
-            /*$scope.cancelOrder = function(order_id) {
+            $scope.cancelOrder = function(order_id) {
                 Popup.confirm('确定取消订单？', function() {
                     $http.post(AppConfig.eschoolAPI + 'Shopping/CancelOrder', { 'token': $scope.token, 'order_bas_id': order_id }).then(function(res) {
                         //$location.path('');
@@ -135,7 +151,7 @@
                         $location.path('/mine/main/order');
                     });
                 });
-            };*/
+            };
 
 
 

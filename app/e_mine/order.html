@@ -34,9 +34,13 @@
                             </div>
                             <div class="weui-panel__ft">
                                 <div class="weui-cell weui-cell_link">
-                                    <span class="o_status">未支付</span>
-                                    <a href="javascript:" ng-click="cancelOrder(item.order_bas_id)" class="o_del">取消订单</a>
-                                    <a href="javascript:" class="o_edit">去支付</a>
+                                    <span class="o_status" ng-show="item.order_status == 0">未支付</span>
+                                    <span class="o_status" ng-show="item.order_status == 1">待收货</span>
+                                    <span class="o_status" ng-show="item.order_status == 2">已完成</span>
+                                    <span class="o_status" ng-show="item.order_status == 6">已取消</span>
+                                    <a href="javascript:" ng-click="cancelOrder(item.order_bas_id)" class="o_del" ng-show="item.order_status == 0">取消订单</a>
+                                    <a href="javascript:" class="o_edit" ng-show="item.order_status == 0">去支付</a>
+                                    <a href="javascript:" ng-click="confirmReceiving(item.order_bas_id)" class="o_edit" ng-show="item.order_status == 1">确认收货</a>
                                 </div>
                             </div>
                         </div>

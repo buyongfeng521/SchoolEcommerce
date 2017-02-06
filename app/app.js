@@ -61,12 +61,13 @@ angular.module('eschool', [
         function($scope, $location, $http, AppConfig, AuthService) {
             $scope.isLogin = AuthService.isAuth();
             $scope.token = AuthService.getUserToken();
+            
             $scope.cartSum = 0;
             $scope.loading = true;
             $http.get(AppConfig.eschoolAPI + 'Shopping/CartListGet?token=' + $scope.token).then(function(res) {
                 console.log(res);
                 $scope.loading = false;
-                var carts_goods = res.data.Data.length > 0 ? res.data.Data : null;
+                var carts_goods = res.data.Data != null ? res.data.Data : null;
                 if (carts_goods) {
                     for (var i = 0; i < carts_goods.length; i++) {
                         $scope.cartSum += carts_goods[i].cart_num;
@@ -78,6 +79,7 @@ angular.module('eschool', [
                 AuthService.login('1234567890').then(function(data){
                     $scope.token = data;
                     $scope.isLogin = true;
+                    $location.path('/category/');
                 });
             };
 
