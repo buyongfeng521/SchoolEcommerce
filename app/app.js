@@ -16,7 +16,7 @@ angular.module('eschool', [
     /*为模块定义一些常量*/
     .constant('AppConfig', {
         pageSize: 10,
-        eschoolAPI: 'http://42.96.206.46:8010/api/'
+        eschoolAPI: 'http://api.junyiweb.com/api/'
     })
     .config(['$routeProvider', 'PopupProvider', function($routeProvider, PopupProvider) {
         $routeProvider.otherwise({ redirectTo: '/category/default' });
@@ -25,20 +25,18 @@ angular.module('eschool', [
         PopupProvider.okValue = '确定';
         PopupProvider.cancelValue = '取消';
     }])
-    .factory('AuthService', ['$cookies', '$http','$q', 'AppConfig', function($cookies, $http,$q, AppConfig) {
+    .factory('AuthService', ['$cookies', '$http', '$q', 'AppConfig', function($cookies, $http, $q, AppConfig) {
         var authSer = {};
 
-        authSer.login = function(openid) {
+        authSer.login = function(code) {
             var token = '';
             var deferred = $q.defer();
-            $http.post(AppConfig.eschoolAPI + 'Mine/LoginWX', {
-                'open_id': openid
-            }).then(function(res) {
+            $http.get(AppConfig.eschoolAPI + 'Mine/WXOauth2?code=' + code).then(function(res) {
                 token = res.data.Data;
                 deferred.resolve(token)
 
                 $cookies.put('SEUserToken', token, { expires: new Date(new Date().getTime() + 31536000000) });
-                /*$scope.$emit("tokenEvent", token);*/
+                //$scope.$emit("tokenEvent", token);
             });
             return deferred.promise;
         };
@@ -61,7 +59,7 @@ angular.module('eschool', [
         function($scope, $location, $http, AppConfig, AuthService) {
             $scope.isLogin = AuthService.isAuth();
             $scope.token = AuthService.getUserToken();
-            
+
             $scope.cartSum = 0;
             $scope.loading = true;
             $http.get(AppConfig.eschoolAPI + 'Shopping/CartListGet?token=' + $scope.token).then(function(res) {
@@ -75,21 +73,25 @@ angular.module('eschool', [
                 }
             });
 
-            $scope.login = function() {
-                AuthService.login('1234567890').then(function(data){
+            /*$scope.login = function() {
+                AuthService.login('1234567890').then(function(data) {
                     $scope.token = data;
                     $scope.isLogin = true;
                     $location.path('/category/');
                 });
-            };
+            };*/
+
+
 
             $scope.$on('cartsumEvent', function(event, data) {
                 console.log(data);
                 $scope.cartSum = data;
             });
-            $scope.$on('tokenEvent', function(event, data) {
-                $scope.token = data;
-            });
+            /*$scope.$on('tokenEvent', function(event, data) {
+                //$scope.token = data;
+                $scope.token = data.token;
+                $scope.isLogin = data.isLogin;
+            });*/
 
         }
     ]);

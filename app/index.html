@@ -28,10 +28,10 @@
     <title></title>
 </head>
 
-<body  ng-controller="eschoolCotroller">
+<body ng-controller="eschoolCotroller">
     <div class="weui-tab">
         <div class="weui-btn-area" ng-show="!isLogin">
-            <a class="weui-btn weui-btn_primary" href="javascript:" ng-click="login()">授权登录</a>
+            <a class="weui-btn weui-btn_primary" href="https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx84e94ed6627cc382&redirect_uri=http://api.junyiweb.com/app/login.html&response_type=code&scope=snsapi_userinfo&state=123#wechat_redirect">授权登录</a>
         </div>
         <div class="weui-tab__panel" ng-show="isLogin" ng-view>
         </div>
