@@ -7,11 +7,9 @@ angular.module('eschool', [
         'eschool_category',
         'eschool_cart',
         'eschool_mine',
-        'eschool_login',
         'eschool.directives.autofocuscategory',
         'eschool.directives.autofocusmenu',
-        'eschool.directives.goodsselected',
-        'eschool.directives.logindialog'
+        'eschool.directives.goodsselected'
     ])
     /*为模块定义一些常量*/
     .constant('AppConfig', {

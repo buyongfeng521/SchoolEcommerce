@@ -124,7 +124,8 @@
         '$http',
         'AppConfig',
         'AuthService',
-        function($scope, $location, $route, $http, AppConfig, AuthService) {
+        'Popup',
+        function($scope, $location, $route, $http, AppConfig, AuthService,Popup) {
             var token = AuthService.getUserToken();
             $scope.token = token;
             $scope.addressdesc = '选择地址';
@@ -173,6 +174,14 @@
 
             //#/cart/payprocess
             $scope.submitOrder = function() {
+                
+                console.log($scope.addressdesc);
+                if ($scope.addressdesc == '选择地址') {
+                    Popup.notice('请选择地址', 1000, function() {
+                        console.log('ok')
+                    });
+                    return;
+                }
                 var url = AppConfig.eschoolAPI + "Shopping/CreateOrder";
                 $http.post(url, {
                     'token': $scope.token,
@@ -181,10 +190,16 @@
                     'phone': $scope.phone,
                     'consignee': $scope.consignee
                 }).then(function(res) {
-                    console.log(res);
-                    $scope.$emit("cartsumEvent", 0);
-                    $location.path('/cart/payprocess');
-                },function(res){
+                    //console.log(res);
+                    if (res.data.status) {
+                        $scope.$emit("cartsumEvent", 0);
+                        $location.path('/cart/payprocess');
+                    } else {
+                        Popup.notice(res.data.msg, 3000, function() {
+                            console.log('ok')
+                        });
+                    }
+                }, function(res) {
                     console.log(res);
                 });
             };
@@ -193,6 +208,6 @@
     ]);
 
     module.controller('ECartPayProcessController', ['$scope', function($scope) {
-
+        
     }]);
 })(angular);

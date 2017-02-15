@@ -1,4 +1,4 @@
-(function(angular) {
+/*(function(angular) {
     angular.module('eschool.directives.logindialog', [])
         .directive('loginDialog', ['$location', function($location) {
             return {
@@ -10,9 +10,9 @@
                     };
 
                     scope.visible = true;
-                    /*scope.$on(AUTH_EVENTS.notAuthenticated, showDialog);
-                    scope.$on(AUTH_EVENTS.sessionTimeout, showDialog)*/
+                    scope.$on(AUTH_EVENTS.notAuthenticated, showDialog);
+                    scope.$on(AUTH_EVENTS.sessionTimeout, showDialog)
                 }
             };
         }]);
-})(angular);
+})(angular);*/

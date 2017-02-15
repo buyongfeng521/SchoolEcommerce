@@ -17,6 +17,9 @@
         return null; //返回参数值
     }
     $(function() {
+        if($.cookie('SEUserToken')){
+            window.location.href = 'index.html';
+        }
         var code = getUrlParam("code");
         console.log(code);
         var url = "http://api.junyiweb.com/api/Mine/WXOauth2?code=" + code;
