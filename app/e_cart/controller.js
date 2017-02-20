@@ -124,8 +124,9 @@
         '$http',
         'AppConfig',
         'AuthService',
+        'WePay',
         'Popup',
-        function($scope, $location, $route, $http, AppConfig, AuthService,Popup) {
+        function($scope, $location, $route, $http, AppConfig, AuthService, WePay, Popup) {
             var token = AuthService.getUserToken();
             $scope.token = token;
             $scope.addressdesc = '选择地址';
@@ -174,7 +175,7 @@
 
             //#/cart/payprocess
             $scope.submitOrder = function() {
-                
+
                 console.log($scope.addressdesc);
                 if ($scope.addressdesc == '选择地址') {
                     Popup.notice('请选择地址', 1000, function() {
@@ -193,7 +194,11 @@
                     //console.log(res);
                     if (res.data.status) {
                         $scope.$emit("cartsumEvent", 0);
-                        $location.path('/cart/payprocess');
+                        //支付
+                        var payParam = {"token":$scope.token,"order_id":res.data.Data.order_bas_id,"ip":"218.4.150.14"};
+                        WePay.pay(payParam);
+
+                        //$location.path('/cart/payprocess');
                     } else {
                         Popup.notice(res.data.msg, 3000, function() {
                             console.log('ok')
@@ -208,6 +213,6 @@
     ]);
 
     module.controller('ECartPayProcessController', ['$scope', function($scope) {
-        
+
     }]);
 })(angular);
