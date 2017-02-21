@@ -100,6 +100,11 @@
                 });
             };
 
+            $scope.goPay = function(order_id) {
+                var payParam = { "token": $scope.token, "order_id": order_id, "ip": "218.4.150.14" };
+                WePay.pay(payParam);
+            };
+
 
 
         }
