@@ -37,7 +37,8 @@
         'AppConfig',
         'Popup',
         'AuthService',
-        function($scope, $location, $http, $route, $routeParams, AppConfig, Popup, AuthService) {
+        'WePay',
+        function($scope, $location, $http, $route, $routeParams, AppConfig, Popup, AuthService,WePay) {
             $scope.token = AuthService.getUserToken();
             $scope.orderType = 'All';
             $scope.orderListAll = [];
