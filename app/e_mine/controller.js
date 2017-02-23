@@ -38,7 +38,7 @@
         'Popup',
         'AuthService',
         'WePay',
-        function($scope, $location, $http, $route, $routeParams, AppConfig, Popup, AuthService,WePay) {
+        function($scope, $location, $http, $route, $routeParams, AppConfig, Popup, AuthService, WePay) {
             $scope.token = AuthService.getUserToken();
             $scope.orderType = 'All';
             $scope.orderListAll = [];
@@ -102,8 +102,8 @@
             };
 
             $scope.goPay = function(order_id) {
-                var payParam = { "token": $scope.token, "order_id": order_id, "ip": "218.4.150.14" };
-                WePay.pay(payParam);
+                var payParam = { "token": $scope.token, "order_id": order_id, "ip": "" };
+                WePay.pay(payParam,'/mine/main/order');
             };
 
 
@@ -203,8 +203,9 @@
         '$route',
         '$routeParams',
         'AppConfig',
+        'Popup',
         'AuthService',
-        function($scope, $location, $http, $route, $routeParams, AppConfig, AuthService) {
+        function($scope, $location, $http, $route, $routeParams, AppConfig, Popup, AuthService) {
             $scope.consignee = "";
             $scope.phone = "";
 
@@ -286,17 +287,30 @@
                     'is_default': $scope.is_default
                 }).then(function(res) {
                     console.log(res);
-                    $location.path('/mine/main/address');
+                    res = res.data;
+                    if (res) {
+                        if (res.status) {
+                            $location.path('/mine/main/address');
+                        } else {
+                            Popup.notice(res.msg, 1000, function() {
+                                console.log('ok')
+                            });
+                        }
+                    } else {
+                        Popup.notice("数据异常", 1000, null);
+                    }
                 }, function(res) {
-                    console.log(res);
+                    Popup.notice("网络异常", 1000, function() {
+                        console.log('ok')
+                    });
                 });
 
 
-                console.log($scope.id);
+                /*console.log($scope.id);
                 console.log($scope.roomId);
                 console.log($scope.consignee);
                 console.log($scope.phone);
-                console.log($scope.is_default);
+                console.log($scope.is_default);*/
 
             };
 

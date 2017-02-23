@@ -52,7 +52,7 @@ angular.module('eschool', [
     .factory('WePay', ['$http', 'AppConfig', function($http, AppConfig) {
         var payFactory = {};
 
-        payFactory.pay = function wxPay(payData) {
+        payFactory.pay = function wxPay(payData, backUrl) {
             var url = AppConfig.eschoolAPI + "Pay/BuildWePay";
             var data = payData;
             return $http.post(url, data).then(wxPayComplete).catch(wxPayFailed);
@@ -67,10 +67,13 @@ angular.module('eschool', [
                     signType: res.signType, // 签名方式，默认为'SHA1'，使用新版支付需传入'MD5' 
                     paySign: res.paySign, // 支付签名 
                     success: function(resp) {
-                        if (resp) { window.location.hash = '/cart/payprocess'; }
+                        //if (resp) { window.location.hash = '/cart/payprocess'; }
+                        if (resp) { window.location.hash = backUrl; }
+                        //return "支付成功";
                     }
                 });
             }
+
 
             function wxPayFailed(res) {
                 //toastr.error("error:" + res);
@@ -78,6 +81,7 @@ angular.module('eschool', [
                     console.log('ok')
                 });*/
                 //alert(res);
+                //return "支付失败";
             }
         }
 
@@ -143,7 +147,7 @@ function runBlock($http, AppConfig) {
         .then(function(res) {
             console.log(res);
             wx.config({
-                debug: true, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
+                debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
                 appId: res.data.Data.appId, // 必填，公众号的唯一标识
                 timestamp: res.data.Data.timestamp, // 必填，生成签名的时间戳
                 nonceStr: res.data.Data.nonceStr, // 必填，生成签名的随机串

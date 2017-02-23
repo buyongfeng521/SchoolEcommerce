@@ -19,8 +19,17 @@
     $(function() {
         if($.cookie('SEUserToken')){
             window.location.href = 'index.html';
+            return;
         }
+
+
         var code = getUrlParam("code");
+
+        if(!code){
+            window.location.href = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx84e94ed6627cc382&redirect_uri=http://api.junyiweb.com/app/login.html&response_type=code&scope=snsapi_userinfo&state=123#wechat_redirect';
+            return;
+        }
+
         console.log(code);
         var url = "http://api.junyiweb.com/api/Mine/WXOauth2?code=" + code;
         $.get(url, function(data) {

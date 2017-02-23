@@ -12,7 +12,7 @@
                 templateUrl: 'e_cart/submitorder.html',
                 controller: 'ECartSubmitOrderController'
             })
-            .when('/cart/payprocess', {
+            .when('/cart/payprocess/:order_id', {
                 templateUrl: 'e_cart/payprocess.html',
                 controller: 'ECartPayProcessController'
             });
@@ -127,6 +127,8 @@
         'WePay',
         'Popup',
         function($scope, $location, $route, $http, AppConfig, AuthService, WePay, Popup) {
+            $scope.loading = false;
+
             var token = AuthService.getUserToken();
             $scope.token = token;
             $scope.addressdesc = '选择地址';
@@ -183,6 +185,9 @@
                     });
                     return;
                 }
+
+                $scope.loading = true;
+
                 var url = AppConfig.eschoolAPI + "Shopping/CreateOrder";
                 $http.post(url, {
                     'token': $scope.token,
@@ -191,28 +196,42 @@
                     'phone': $scope.phone,
                     'consignee': $scope.consignee
                 }).then(function(res) {
-                    //console.log(res);
-                    if (res.data.status) {
-                        $scope.$emit("cartsumEvent", 0);
-                        //支付
-                        var payParam = {"token":$scope.token,"order_id":res.data.Data.order_bas_id,"ip":"218.4.150.14"};
-                        WePay.pay(payParam);
+                        //console.log(res);
+                        if (res.data.status) {
+                            $scope.$emit("cartsumEvent", 0);
+                            //支付
+                            var payParam = { "token": $scope.token, "order_id": res.data.Data.order_bas_id, "ip": "" };
+                            var backUrl = '/cart/payprocess/' + res.data.Data.order_bas_id;
+                            WePay.pay(payParam, backUrl).then(function(res) {
+                                $scope.loading = false;
+                            }).catch(
+                                function(res) {
+                                    $scope.loading = false;
+                                }
+                            );
 
-                        //$location.path('/cart/payprocess');
-                    } else {
-                        Popup.notice(res.data.msg, 3000, function() {
-                            console.log('ok')
-                        });
-                    }
-                }, function(res) {
-                    console.log(res);
-                });
+                        } else {
+                            $scope.loading = false;
+                            Popup.notice(res.data.msg, 3000, function() {
+                                console.log('ok')
+                            });
+                        }
+
+                    },
+                    function(res) {
+                        console.log(res);
+                        $scope.loading = false;
+                    });
             };
 
         }
     ]);
 
-    module.controller('ECartPayProcessController', ['$scope', function($scope) {
-
-    }]);
+    module.controller('ECartPayProcessController', ['$scope',
+        '$route',
+        '$routeParams',
+        function($scope, $route, $routeParams) {
+            $scope.order_id = $routeParams.order_id;
+        }
+    ]);
 })(angular);
