@@ -26,9 +26,20 @@
             controller: 'EMineAboutController'
         });
     }]);
-    module.controller('EMineController', ['$scope', function($scope) {
+    module.controller('EMineController', ['$scope',
+        '$http',
+        'AppConfig',
+        'AuthService',
+        function($scope, $http, AppConfig,AuthService) {
+            $scope.token = AuthService.getUserToken();
+            $scope.userData = {};
+            $http.get(AppConfig.eschoolAPI + 'Mine/LoginUser?token=' + $scope.token).then(function(res){
+                console.log(res.data.Data);
+                $scope.userData = res.data.Data;
+            });
 
-    }]);
+        }
+    ]);
     module.controller('EMineOrderController', ['$scope',
         '$location',
         '$http',
@@ -103,7 +114,7 @@
 
             $scope.goPay = function(order_id) {
                 var payParam = { "token": $scope.token, "order_id": order_id, "ip": "" };
-                WePay.pay(payParam,'/mine/main/order');
+                WePay.pay(payParam, '/mine/main/order');
             };
 
 
