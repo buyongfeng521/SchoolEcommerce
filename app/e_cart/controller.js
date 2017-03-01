@@ -39,13 +39,13 @@
                 var goods_amount = 0;
                 for (var i = 0; i < $scope.cartlist.length; i++) {
                     carts_sum += $scope.cartlist[i].cart_num;
-                    goods_amount += ($scope.cartlist[i].cart_num * $scope.cartlist[i].goods.goods_price)
+                    goods_amount += $scope.cartlist[i].cart_num * $scope.cartlist[i].goods.goods_price;
 
                     arr[i] = 0;
                     arr[i] = $scope.cartlist[i].cart_num;
                 }
                 $scope.itemnum = arr;
-                $scope.goodsamount = goods_amount;
+                $scope.goodsamount = getRound(goods_amount,2);
                 //update carts_num
                 $scope.$emit("cartsumEvent", carts_sum);
             });
@@ -57,6 +57,7 @@
                     Popup.confirm('确定删除商品？', function() {
                         $scope.itemnum[index]--;
                         $scope.goodsamount -= goods_price;
+                        $scope.goodsamount = getRound($scope.goodsamount,2);
                         deleteCart(token, goods_id);
                         //update carts_mum
                         carts_sum--;
@@ -64,10 +65,10 @@
                     }, function() {
                         console.log('cancel');
                     });
-
                 } else {
                     $scope.itemnum[index]--;
                     $scope.goodsamount -= goods_price;
+                    $scope.goodsamount = getRound($scope.goodsamount,2);
                     updateCartNum(token, goods_id, $scope.itemnum[index]);
                     //update carts_mum
                     carts_sum--;
@@ -77,6 +78,7 @@
             $scope.add = function(index, token, goods_id, goods_price) {
                 $scope.itemnum[index]++;
                 $scope.goodsamount += goods_price;
+                $scope.goodsamount = getRound($scope.goodsamount,2);
                 //update carts_mum
                 carts_sum++;
                 $scope.$emit("cartsumEvent", carts_sum);
@@ -86,6 +88,7 @@
             $scope.delete = function(index, token, goods_id, goods_price) {
                 Popup.confirm('确定删除商品？', function() {
                     $scope.goodsamount -= ($scope.itemnum[index] * goods_price);
+                    $scope.goodsamount = getRound($scope.goodsamount,2);
                     deleteCart(token, goods_id);
                     //update carts_mum
                     carts_sum = carts_sum - $scope.itemnum[index];
@@ -114,6 +117,11 @@
                     console.log(res);
                 });
             };
+
+            //Round
+            var getRound = function(num, len) {　　　　
+                return Math.round(num * Math.pow(10, len)) / Math.pow(10, len);　　
+            }
 
         }
     ]);
@@ -147,7 +155,7 @@
                 for (var i = 0; i < $scope.cartlist.length; i++) {
                     goods_amount += ($scope.cartlist[i].cart_num * $scope.cartlist[i].goods.goods_price)
                 }
-                $scope.goodsamount = goods_amount;
+                $scope.goodsamount = (goods_amount*100)/100;
             });
 
             $http.get(AppConfig.eschoolAPI + 'Mine/UserAddressGet?token=' + $scope.token).then(function(res) {
