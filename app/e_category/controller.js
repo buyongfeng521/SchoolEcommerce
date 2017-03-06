@@ -114,6 +114,13 @@
                 }
             };
             $scope.add = function($index, token, goods_id) {
+                if($scope.itemnum[$index] >= 6){
+                    Popup.notice('单个购买数量不能大于6', 1000, function() {
+                        console.log('ok')
+                    });
+                    return;
+                }
+
                 $scope.itemnum[$index]++;
                 //update carts_mum
                 carts_sum++;
