@@ -156,13 +156,19 @@
             $scope.ua_id = '';
             $scope.showaddresslist = false;
 
+            //Round
+            var getRound = function(num, len) {　　　　
+                return Math.round(num * Math.pow(10, len)) / Math.pow(10, len);　　
+            }
+
             $http.get(AppConfig.eschoolAPI + 'Shopping/CartListGet?token=' + token).then(function(res) {
                 $scope.cartlist = res.data.Data;
                 var goods_amount = 0;
                 for (var i = 0; i < $scope.cartlist.length; i++) {
                     goods_amount += ($scope.cartlist[i].cart_num * $scope.cartlist[i].goods.goods_price)
                 }
-                $scope.goodsamount = (goods_amount*100)/100;
+                //$scope.goodsamount = (goods_amount*100)/100;
+                $scope.goodsamount = getRound(goods_amount,2);//(goods_amount*100)/100;
             });
 
             $http.get(AppConfig.eschoolAPI + 'Mine/UserAddressGet?token=' + $scope.token).then(function(res) {
