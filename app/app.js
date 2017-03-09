@@ -104,7 +104,7 @@ angular.module('eschool', [
             var sWeek = "日一二三四五六".charAt(new Date().getDay());
             if(sWeek != "日" && sWeek != "六"){//0和6也可
                 var upStart = 11 * 3600 + 40 * 60;
-                var upEnd = 13 * 30 + 20 * 60;
+                var upEnd = 13 * 3600 + 20 * 60;
                 var downStart = 17 * 3600 + 20 * 60;
                 var downEnd = 23 * 3600 + 30 * 60;
                 var now = new Date().getHours() * 3600 + new Date().getMinutes() * 60;
@@ -125,6 +125,11 @@ angular.module('eschool', [
                 }
 
             }
+
+            var now = new Date().getHours() * 3600 + new Date().getMinutes() * 60;
+            console.log("时间");
+            console.log(now);
+
 
 
 
