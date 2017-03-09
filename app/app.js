@@ -94,7 +94,43 @@ angular.module('eschool', [
         '$http',
         'AppConfig',
         'AuthService',
-        function($scope, $location, $http, AppConfig, AuthService) {
+        'Popup',
+        function($scope, $location, $http, AppConfig, AuthService,Popup) {
+            //休息中
+            //中午11:40到13:20
+            //晚上17:20到23:30
+            //周末 8:00 - 23:30
+            $scope.isRest = true;
+            var sWeek = "日一二三四五六".charAt(new Date().getDay());
+            if(sWeek != "日" && sWeek != "六"){//0和6也可
+                var upStart = 11 * 3600 + 40 * 60;
+                var upEnd = 13 * 30 + 20 * 60;
+                var downStart = 17 * 3600 + 20 * 60;
+                var downEnd = 23 * 3600 + 30 * 60;
+                var now = new Date().getHours() * 3600 + new Date().getMinutes() * 60;
+                if(now > upStart && now < upEnd){
+                    $scope.isRest = false;
+                }
+                if(now > downStart && now < downEnd){
+                    $scope.isRest = false;
+                }
+
+            }
+            else{
+                var fullStart = 8 * 3600;
+                var fullEnd = 23 * 3600 + 30 * 60;
+                var now = new Date().getHours() * 3600 + new Date().getMinutes() * 60;
+                if(now > fullStart && now < fullEnd){
+                    $scope.isRest = false;
+                }
+
+            }
+
+
+
+            
+
+
             $scope.isLogin = AuthService.isAuth();
             $scope.token = AuthService.getUserToken();
 
