@@ -14,6 +14,7 @@
                 <div class="cat_r_body">
                     <h4>{{item.goods_name}}</h4>
                     <span>&yen; {{item.goods_price}}</span>
+                    <!-- <h5 style="color:red">库存：{{item.goods_number-item.goods_lock_number}}</h5> -->
                 </div>
                 <img ng-src="{{item.goods_img}}" alt="" class="cat_r_right" ng-show="itemnum[$index] <= 0">
                 <div class="cat_r_change_box" ng-show="itemnum[$index] > 0">
