@@ -17,7 +17,17 @@
         return null; //返回参数值
     }
     $(function() {
-        if($.cookie('SEUserToken')){
+        //测试，上线取消
+        $.cookie('SEUserToken', "a2afdbe51c534a83af0f6d97be0bc73f", {
+            expires: 356
+        });
+        window.location.href = 'index.html';
+
+
+
+
+
+        if ($.cookie('SEUserToken')) {
             window.location.href = 'index.html';
             return;
         }
@@ -25,7 +35,7 @@
 
         var code = getUrlParam("code");
 
-        if(!code){
+        if (!code) {
             window.location.href = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx84e94ed6627cc382&redirect_uri=http://api.junyiweb.com/app/login.html&response_type=code&scope=snsapi_userinfo&state=123#wechat_redirect';
             return;
         }

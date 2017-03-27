@@ -90,6 +90,28 @@ angular.module('eschool', [
         return payFactory;
 
     }])
+    .factory('sessionRecoverer', ['$q', '$injector', function($q, $injector) {
+        var sessionRecoverer = {
+            request: function (config) {
+                return config || $q.when(config);
+            },
+            response:function(response)
+            {            
+                console.log(response.data.msg);
+                switch (response.data.msg) {
+                    case ("无效用户"):
+                        window.location = "login.html";
+                        break;
+                    default:
+                        console.log('user ok');
+                }
+                return response;
+            }
+        };
+        return sessionRecoverer;
+    }]).config(['$httpProvider', function($httpProvider) {
+        $httpProvider.interceptors.push('sessionRecoverer');
+    }])
     .controller('eschoolCotroller', ['$scope',
         '$location',
         '$http',
