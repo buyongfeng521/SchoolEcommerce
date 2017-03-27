@@ -14,8 +14,6 @@ angular.module('eschool', [
     /*为模块定义一些常量*/
     .constant('AppConfig', {
         pageSize: 10,
-        //正式链接
-        //eschoolAPI: 'http://api.junyiweb.com/api/'
         //测试连接
         eschoolAPI: 'http://139.196.185.23:8090/api/'
     })
